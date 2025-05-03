@@ -3,7 +3,7 @@
 
 #include "FPSCharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
-#include "FPSCharacter.h"
+#include "FPSCharacterBase.h"
 #include "GameplayTagContainer.h"
 
 UFPSCharacterMovementComponent::UFPSCharacterMovementComponent()
@@ -14,7 +14,7 @@ UFPSCharacterMovementComponent::UFPSCharacterMovementComponent()
 
 float UFPSCharacterMovementComponent::GetMaxSpeed() const
 {
-	AFPSCharacter* Owner = Cast<AFPSCharacter>(GetOwner());
+	AFPSCharacterBase* Owner = Cast<AFPSCharacterBase>(GetOwner());
 	if (!Owner)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s() No Owner"), *FString(__FUNCTION__));

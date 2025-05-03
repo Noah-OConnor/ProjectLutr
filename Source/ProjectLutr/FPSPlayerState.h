@@ -7,9 +7,6 @@
 #include "AbilitySystemInterface.h"
 #include "FPSPlayerState.generated.h"
 
-//class UFPSAbilitySystemComponent;
-//class UPlayerAttributeSet;
-
 /**
  * 
  */
@@ -23,19 +20,19 @@ public:
 
 	class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	class UPlayerAttributeSet* GetAttributeSet() const;
+	class UPlayerAttributeSetBase* GetAttributeSet() const;
 
-	UFUNCTION(BlueprintCallable, Category = "PlayerState")
+	UFUNCTION(BlueprintCallable, Category = "Lutr|PlayerState")
 	bool IsAlive() const;
 
 	/**
 	* Getters for attributes from GDAttributeSetBase. Returns Current Value unless otherwise specified.
 	*/
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	UFUNCTION(BlueprintCallable, Category = "Lutr|Attributes")
 	float GetHealth() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	UFUNCTION(BlueprintCallable, Category = "Lutr|Attributes")
 	float GetMaxHealth() const;
 
 protected:
@@ -43,5 +40,5 @@ protected:
 	class UFPSAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY()
-	class UPlayerAttributeSet* AttributeSet;
+	class UPlayerAttributeSetBase* AttributeSetBase;
 };

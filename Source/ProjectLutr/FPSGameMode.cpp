@@ -3,3 +3,11 @@
 
 #include "FPSGameMode.h"
 
+AFPSGameMode::AFPSGameMode()
+{
+}
+
+void AFPSGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+}
