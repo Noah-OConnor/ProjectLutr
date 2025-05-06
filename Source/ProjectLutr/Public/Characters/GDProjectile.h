@@ -8,7 +8,7 @@
 #include "GDProjectile.generated.h"
 
 UCLASS()
-class GASDOCUMENTATION_API AGDProjectile : public AActor
+class PROJECTLUTR_API AGDProjectile : public AActor
 {
 	GENERATED_BODY()
 	

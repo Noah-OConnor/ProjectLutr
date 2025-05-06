@@ -18,7 +18,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDAttributeSetBase : public UAttributeSet
+class PROJECTLUTR_API UGDAttributeSetBase : public UAttributeSet
 {
 	GENERATED_BODY()
 	

@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDCharacterMovementComponent : public UCharacterMovementComponent
+class PROJECTLUTR_API UGDCharacterMovementComponent : public UCharacterMovementComponent
 {
 	GENERATED_BODY()
 	

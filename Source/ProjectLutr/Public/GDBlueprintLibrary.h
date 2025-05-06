@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDBlueprintLibrary : public UBlueprintFunctionLibrary
+class PROJECTLUTR_API UGDBlueprintLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

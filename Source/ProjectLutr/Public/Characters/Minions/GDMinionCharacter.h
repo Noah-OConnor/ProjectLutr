@@ -11,7 +11,7 @@
  * An AI controlled minion character.
  */
 UCLASS()
-class GASDOCUMENTATION_API AGDMinionCharacter : public AGDCharacterBase
+class PROJECTLUTR_API AGDMinionCharacter : public AGDCharacterBase
 {
 	GENERATED_BODY()
 

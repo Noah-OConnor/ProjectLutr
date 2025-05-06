@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
-#include "GASDocumentation/GASDocumentation.h"
+#include "ProjectLutr/ProjectLutr.h"
 #include "GDGameplayAbility.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDGameplayAbility : public UGameplayAbility
+class PROJECTLUTR_API UGDGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
 	

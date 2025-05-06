@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FWaitReceiveDamageDelegate, class
  * Waits until the Ability Owner receives damage.
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDAT_WaitReceiveDamage : public UAbilityTask
+class PROJECTLUTR_API UGDAT_WaitReceiveDamage : public UAbilityTask
 {
 	GENERATED_UCLASS_BODY()
 	

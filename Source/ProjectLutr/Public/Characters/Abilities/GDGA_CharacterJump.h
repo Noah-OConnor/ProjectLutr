@@ -10,7 +10,7 @@
  * Makes the Character try to jump using the standard Character->Jump. This is an example of a non-instanced ability.
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDGA_CharacterJump : public UGDGameplayAbility
+class PROJECTLUTR_API UGDGA_CharacterJump : public UGDGameplayAbility
 {
 	GENERATED_BODY()
 

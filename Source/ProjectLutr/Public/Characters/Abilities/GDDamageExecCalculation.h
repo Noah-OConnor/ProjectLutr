@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDDamageExecCalculation : public UGameplayEffectExecutionCalculation
+class PROJECTLUTR_API UGDDamageExecCalculation : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 	

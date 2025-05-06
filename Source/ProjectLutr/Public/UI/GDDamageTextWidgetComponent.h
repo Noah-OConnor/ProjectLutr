@@ -10,7 +10,7 @@
  * For the floating Damage Numbers when a Character receives damage.
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDDamageTextWidgetComponent : public UWidgetComponent
+class PROJECTLUTR_API UGDDamageTextWidgetComponent : public UWidgetComponent
 {
 	GENERATED_BODY()
 

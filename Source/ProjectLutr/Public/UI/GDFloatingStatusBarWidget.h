@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDFloatingStatusBarWidget : public UUserWidget
+class PROJECTLUTR_API UGDFloatingStatusBarWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	

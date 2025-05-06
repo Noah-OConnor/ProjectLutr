@@ -10,7 +10,7 @@
 #include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "GASDocumentation/GASDocumentationGameMode.h"
+#include "ProjectLutr/ProjectLutrGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Player/GDPlayerController.h"
@@ -156,7 +156,7 @@ void AGDHeroCharacter::FinishDying()
 {
 	if (GetLocalRole() == ROLE_Authority)
 	{
-		AGASDocumentationGameMode* GM = Cast<AGASDocumentationGameMode>(GetWorld()->GetAuthGameMode());
+		AProjectLutrGameMode* GM = Cast<AProjectLutrGameMode>(GetWorld()->GetAuthGameMode());
 
 		if (GM)
 		{
@@ -314,7 +314,7 @@ void AGDHeroCharacter::BindASCInput()
 {
 	if (!ASCInputBound && AbilitySystemComponent.IsValid() && IsValid(InputComponent))
 	{
-		FTopLevelAssetPath AbilityEnumAssetPath = FTopLevelAssetPath(FName("/Script/GASDocumentation"), FName("EGDAbilityInputID"));
+		FTopLevelAssetPath AbilityEnumAssetPath = FTopLevelAssetPath(FName("/Script/ProjectLutr"), FName("EGDAbilityInputID"));
 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
 			FString("CancelTarget"), AbilityEnumAssetPath, static_cast<int32>(EGDAbilityInputID::Confirm), static_cast<int32>(EGDAbilityInputID::Cancel)));
 

@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDHUDWidget : public UUserWidget
+class PROJECTLUTR_API UGDHUDWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	

@@ -3,7 +3,7 @@
 
 #include "Characters/Abilities/GDGA_CharacterJump.h"
 #include "Characters/GDCharacterBase.h"
-#include "GASDocumentation/GASDocumentation.h"
+#include "ProjectLutr/ProjectLutr.h"
 
 UGDGA_CharacterJump::UGDGA_CharacterJump()
 {

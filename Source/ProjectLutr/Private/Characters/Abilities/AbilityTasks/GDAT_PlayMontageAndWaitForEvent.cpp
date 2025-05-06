@@ -7,7 +7,7 @@
 #include "Animation/AnimInstance.h"
 #include "Characters/Abilities/GDAbilitySystemComponent.h"
 #include "Characters/Abilities/GDGameplayAbility.h"
-#include "GASDocumentation/GASDocumentation.h"
+#include "ProjectLutr/ProjectLutr.h"
 #include "GameFramework/Character.h"
 
 UGDAT_PlayMontageAndWaitForEvent::UGDAT_PlayMontageAndWaitForEvent(const FObjectInitializer& ObjectInitializer)

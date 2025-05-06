@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDEngineSubsystem : public UEngineSubsystem
+class PROJECTLUTR_API UGDEngineSubsystem : public UEngineSubsystem
 {
 	GENERATED_BODY()
 	

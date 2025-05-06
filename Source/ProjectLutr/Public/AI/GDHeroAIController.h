@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API AGDHeroAIController : public AAIController
+class PROJECTLUTR_API AGDHeroAIController : public AAIController
 {
 	GENERATED_BODY()
 	

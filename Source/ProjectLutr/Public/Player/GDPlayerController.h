@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API AGDPlayerController : public APlayerController
+class PROJECTLUTR_API AGDPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	

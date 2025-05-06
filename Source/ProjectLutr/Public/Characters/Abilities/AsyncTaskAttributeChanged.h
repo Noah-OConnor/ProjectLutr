@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnAttributeChanged, FGameplayAtt
  * Useful to use in UI.
  */
 UCLASS(BlueprintType, meta=(ExposedAsyncProxy = AsyncTask))
-class GASDOCUMENTATION_API UAsyncTaskAttributeChanged : public UBlueprintAsyncActionBase
+class PROJECTLUTR_API UAsyncTaskAttributeChanged : public UBlueprintAsyncActionBase
 {
 	GENERATED_BODY()
 	

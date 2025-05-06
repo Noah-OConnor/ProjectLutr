@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnGameplayEffectStackChanged, FGa
  * Useful to use in UI.
  */
 UCLASS(BlueprintType, meta = (ExposedAsyncProxy = AsyncTask))
-class GASDOCUMENTATION_API UAsyncTaskEffectStackChanged : public UBlueprintAsyncActionBase
+class PROJECTLUTR_API UAsyncTaskEffectStackChanged : public UBlueprintAsyncActionBase
 {
 	GENERATED_BODY()
 	

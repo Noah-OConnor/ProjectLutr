@@ -10,7 +10,7 @@
  * A player or AI controlled hero character.
  */
 UCLASS()
-class GASDOCUMENTATION_API AGDHeroCharacter : public AGDCharacterBase
+class PROJECTLUTR_API AGDHeroCharacter : public AGDCharacterBase
 {
 	GENERATED_BODY()
 

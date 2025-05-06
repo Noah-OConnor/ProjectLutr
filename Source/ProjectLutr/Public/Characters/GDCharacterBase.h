@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "GameplayTagContainer.h"
-#include "GASDocumentation/GASDocumentation.h"
+#include "ProjectLutr/ProjectLutr.h"
 #include "GDCharacterBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterBaseHitReactDelegate, EGDHitReactDirection, Direction);
@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDiedDelegate, AGDCharacter
 * This class should not be instantiated and instead subclassed.
 */
 UCLASS()
-class GASDOCUMENTATION_API AGDCharacterBase : public ACharacter, public IAbilitySystemInterface
+class PROJECTLUTR_API AGDCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 

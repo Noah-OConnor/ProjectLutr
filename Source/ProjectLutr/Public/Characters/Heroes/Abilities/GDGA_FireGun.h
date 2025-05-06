@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API UGDGA_FireGun : public UGDGameplayAbility
+class PROJECTLUTR_API UGDGA_FireGun : public UGDGameplayAbility
 {
 	GENERATED_BODY()
 	

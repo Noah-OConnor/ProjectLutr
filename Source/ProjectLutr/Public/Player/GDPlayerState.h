@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class GASDOCUMENTATION_API AGDPlayerState : public APlayerState, public IAbilitySystemInterface
+class PROJECTLUTR_API AGDPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
