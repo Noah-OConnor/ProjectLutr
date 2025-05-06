@@ -3,21 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameModeBase.h"
+#include "GameFramework/GameMode.h"
 #include "FPSGameMode.generated.h"
 
 /**
  * 
  */
-UCLASS(minimalapi)
-class AFPSGameMode : public AGameModeBase
+UCLASS()
+class PROJECTLUTR_API AFPSGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
-
-public:
-	AFPSGameMode();
-
-protected:
-	virtual void BeginPlay() override;
 };
