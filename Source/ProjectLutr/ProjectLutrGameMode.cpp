@@ -14,11 +14,11 @@ AProjectLutrGameMode::AProjectLutrGameMode()
 {
 	RespawnDelay = 5.0f;
 
-	HeroClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/Characters/Hero/BP_HeroCharacter.BP_HeroCharacter_C"));
+	/*HeroClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/Characters/Hero/BP_HeroCharacter.BP_HeroCharacter_C"));
 	if (!HeroClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find HeroClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}
+	}*/
 }
 
 void AProjectLutrGameMode::HeroDied(AController* Controller)

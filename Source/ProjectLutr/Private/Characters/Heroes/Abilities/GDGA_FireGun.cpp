@@ -79,7 +79,7 @@ void UGDGA_FireGun::EventReceived(FGameplayTag EventTag, FGameplayEventData Even
 		}
 
 		//FVector Start = Hero->GetGunComponent()->GetSocketLocation(FName("Muzzle"));
-		FVector End = Hero->GetCameraBoom()->GetComponentLocation() + Hero->GetFollowCamera()->GetForwardVector() * Range;
+		//FVector End = Hero->GetCameraBoom()->GetComponentLocation() + Hero->GetFollowCamera()->GetForwardVector() * Range;
 		//FRotator Rotation = UKismetMathLibrary::FindLookAtRotation(Start, End);
 
 		FGameplayEffectSpecHandle DamageEffectSpecHandle = MakeOutgoingGameplayEffectSpec(DamageGameplayEffect, GetAbilityLevel());

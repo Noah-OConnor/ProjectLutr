@@ -37,11 +37,11 @@ AGDMinionCharacter::AGDMinionCharacter(const class FObjectInitializer& ObjectIni
 	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(500, 500));
 
-	UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Minion.UI_FloatingStatusBar_Minion_C"));
+	/*UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Minion.UI_FloatingStatusBar_Minion_C"));
 	if (!UIFloatingStatusBarClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find UIFloatingStatusBarClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}
+	}*/
 }
 
 void AGDMinionCharacter::BeginPlay()

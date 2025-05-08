@@ -20,14 +20,14 @@
 
 AGDHeroCharacter::AGDHeroCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
+	/*CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bUsePawnControlRotation = true;
-	CameraBoom->SetRelativeLocation(FVector(0, 0, 68.492264));
+	CameraBoom->SetRelativeLocation(FVector(0, 0, 68.492264));*/
 
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(FName("FollowCamera"));
+	/*FollowCamera = CreateDefaultSubobject<UCameraComponent>(FName("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom);
-	FollowCamera->FieldOfView = 80.0f;
+	FollowCamera->FieldOfView = 80.0f;*/
 
 	//GunComponent = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Gun"));
 
@@ -45,11 +45,11 @@ AGDHeroCharacter::AGDHeroCharacter(const class FObjectInitializer& ObjectInitial
 	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(500, 500));
 
-	UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Hero.UI_FloatingStatusBar_Hero_C"));
+	/*UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Hero.UI_FloatingStatusBar_Hero_C"));
 	if (!UIFloatingStatusBarClass)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find UIFloatingStatusBarClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}
+	}*/
 
 	AIControllerClass = AGDHeroAIController::StaticClass();
 
@@ -122,25 +122,25 @@ void AGDHeroCharacter::PossessedBy(AController * NewController)
 	}
 }
 
-USpringArmComponent * AGDHeroCharacter::GetCameraBoom()
-{
-	return CameraBoom;
-}
-
-UCameraComponent * AGDHeroCharacter::GetFollowCamera()
-{
-	return FollowCamera;
-}
-
-float AGDHeroCharacter::GetStartingCameraBoomArmLength()
-{
-	return StartingCameraBoomArmLength;
-}
-
-FVector AGDHeroCharacter::GetStartingCameraBoomLocation()
-{
-	return StartingCameraBoomLocation;
-}
+//USpringArmComponent * AGDHeroCharacter::GetCameraBoom()
+//{
+//	return CameraBoom;
+//}
+//
+//UCameraComponent * AGDHeroCharacter::GetFollowCamera()
+//{
+//	return FollowCamera;
+//}
+//
+//float AGDHeroCharacter::GetStartingCameraBoomArmLength()
+//{
+//	return StartingCameraBoomArmLength;
+//}
+//
+//FVector AGDHeroCharacter::GetStartingCameraBoomLocation()
+//{
+//	return StartingCameraBoomLocation;
+//}
 
 UGDFloatingStatusBarWidget * AGDHeroCharacter::GetFloatingStatusBar()
 {
@@ -181,8 +181,8 @@ void AGDHeroCharacter::BeginPlay()
 	// When the player a client, the floating status bars are all set up in OnRep_PlayerState.
 	InitializeFloatingStatusBar();
 
-	StartingCameraBoomArmLength = CameraBoom->TargetArmLength;
-	StartingCameraBoomLocation = CameraBoom->GetRelativeLocation();
+	/*StartingCameraBoomArmLength = CameraBoom->TargetArmLength;
+	StartingCameraBoomLocation = CameraBoom->GetRelativeLocation();*/
 }
 
 void AGDHeroCharacter::PostInitializeComponents()

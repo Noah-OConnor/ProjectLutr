@@ -23,15 +23,15 @@ public:
 	// Only called on the Server. Calls before Server's AcknowledgePossession.
 	virtual void PossessedBy(AController* NewController) override;
 
-	class USpringArmComponent* GetCameraBoom();
+	//class USpringArmComponent* GetCameraBoom();
 
-	class UCameraComponent* GetFollowCamera();
+	//class UCameraComponent* GetFollowCamera();
 
-	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|Camera")
-	float GetStartingCameraBoomArmLength();
+	//UFUNCTION(BlueprintCallable, Category = "GASDocumentation|Camera")
+	//float GetStartingCameraBoomArmLength();
 
-	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|Camera")
-	FVector GetStartingCameraBoomLocation();
+	//UFUNCTION(BlueprintCallable, Category = "GASDocumentation|Camera")
+	//FVector GetStartingCameraBoomLocation();
 
 	class UGDFloatingStatusBarWidget* GetFloatingStatusBar();
 
@@ -46,17 +46,17 @@ protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "GASDocumentation|Camera")
 	float BaseLookUpRate = 45.0f;
 
-	UPROPERTY(BlueprintReadOnly, Category = "GASDocumentation|Camera")
-	float StartingCameraBoomArmLength;
+	//UPROPERTY(BlueprintReadOnly, Category = "GASDocumentation|Camera")
+	//float StartingCameraBoomArmLength;
 
-	UPROPERTY(BlueprintReadOnly, Category = "GASDocumentation|Camera")
-	FVector StartingCameraBoomLocation;
+	//UPROPERTY(BlueprintReadOnly, Category = "GASDocumentation|Camera")
+	//FVector StartingCameraBoomLocation;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "GASDocumentation|Camera")
-	class USpringArmComponent* CameraBoom;
+	//UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "GASDocumentation|Camera")
+	//class USpringArmComponent* CameraBoom;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "GASDocumentation|Camera")
-	class UCameraComponent* FollowCamera;
+	//UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "GASDocumentation|Camera")
+	//class UCameraComponent* FollowCamera;
 
 	//UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	//USkeletalMeshComponent* GunComponent;
