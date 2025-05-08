@@ -29,7 +29,7 @@ AGDHeroCharacter::AGDHeroCharacter(const class FObjectInitializer& ObjectInitial
 	FollowCamera->SetupAttachment(CameraBoom);
 	FollowCamera->FieldOfView = 80.0f;
 
-	GunComponent = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Gun"));
+	//GunComponent = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Gun"));
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
@@ -147,10 +147,10 @@ UGDFloatingStatusBarWidget * AGDHeroCharacter::GetFloatingStatusBar()
 	return UIFloatingStatusBar;
 }
 
-USkeletalMeshComponent * AGDHeroCharacter::GetGunComponent() const
-{
-	return GunComponent;
-}
+//USkeletalMeshComponent * AGDHeroCharacter::GetGunComponent() const
+//{
+//	return GunComponent;
+//}
 
 void AGDHeroCharacter::FinishDying()
 {
@@ -189,10 +189,10 @@ void AGDHeroCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	if (GunComponent && GetMesh())
-	{
-		GunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GunSocket"));
-	}
+	//if (GunComponent && GetMesh())
+	//{
+		//GunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GunSocket"));
+	//}
 }
 
 void AGDHeroCharacter::LookUp(float Value)

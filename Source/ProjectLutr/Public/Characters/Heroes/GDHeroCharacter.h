@@ -35,7 +35,7 @@ public:
 
 	class UGDFloatingStatusBarWidget* GetFloatingStatusBar();
 
-	USkeletalMeshComponent* GetGunComponent() const;
+	//USkeletalMeshComponent* GetGunComponent() const;
 
 	virtual void FinishDying() override;
 
@@ -58,8 +58,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "GASDocumentation|Camera")
 	class UCameraComponent* FollowCamera;
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	USkeletalMeshComponent* GunComponent;
+	//UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+	//USkeletalMeshComponent* GunComponent;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "GASDocumentation|UI")
 	TSubclassOf<class UGDFloatingStatusBarWidget> UIFloatingStatusBarClass;
