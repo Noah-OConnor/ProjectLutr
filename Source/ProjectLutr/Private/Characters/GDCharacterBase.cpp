@@ -167,6 +167,26 @@ float AGDCharacterBase::GetMaxHealth() const
 	return 0.0f;
 }
 
+float AGDCharacterBase::GetCapacityReserve() const
+{
+	if (AttributeSetBase.IsValid())
+	{
+		return AttributeSetBase->GetCapacityReserve();
+	}
+
+	return 0.0f;
+}
+
+float AGDCharacterBase::GetMaxCapacityReserve() const
+{
+	if (AttributeSetBase.IsValid())
+	{
+		return AttributeSetBase->GetMaxCapacityReserve();
+	}
+
+	return 0.0f;
+}
+
 float AGDCharacterBase::GetMana() const
 {
 	if (AttributeSetBase.IsValid())
@@ -339,6 +359,14 @@ void AGDCharacterBase::SetHealth(float Health)
 	if (AttributeSetBase.IsValid())
 	{
 		AttributeSetBase->SetHealth(Health);
+	}
+}
+
+void AGDCharacterBase::SetCapacityReserve(float CapacityReserve)
+{
+	if (AttributeSetBase.IsValid())
+	{
+		AttributeSetBase->SetCapacityReserve(CapacityReserve);
 	}
 }
 

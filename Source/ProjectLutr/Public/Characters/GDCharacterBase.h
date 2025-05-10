@@ -68,6 +68,12 @@ public:
 	float GetMaxHealth() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDCharacter|Attributes")
+	float GetCapacityReserve() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDCharacter|Attributes")
+	float GetMaxCapacityReserve() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDCharacter|Attributes")
 	float GetMana() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDCharacter|Attributes")
@@ -150,6 +156,7 @@ protected:
 	*/
 
 	virtual void SetHealth(float Health);
+	virtual void SetCapacityReserve(float CapacityReserve);
 	virtual void SetMana(float Mana);
 	virtual void SetStamina(float Stamina);
 };

@@ -27,6 +27,10 @@ void UGDAttributeSetBase::PreAttributeChange(const FGameplayAttribute& Attribute
 	{
 		AdjustAttributeForMaxChange(Health, MaxHealth, NewValue, GetHealthAttribute());
 	}
+	else if (Attribute == GetMaxCapacityReserveAttribute()) 
+	{
+		AdjustAttributeForMaxChange(CapacityReserve, MaxCapacityReserve, NewValue, GetCapacityReserveAttribute());
+	}
 	else if (Attribute == GetMaxManaAttribute())
 	{
 		AdjustAttributeForMaxChange(Mana, MaxMana, NewValue, GetManaAttribute());
@@ -207,6 +211,11 @@ void UGDAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCall
 		// Health loss should go through Damage.
 		SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
 	} // Health
+	else if (Data.EvaluatedData.Attribute == GetCapacityReserveAttribute())
+	{
+		// Handle capacity changes.
+		SetCapacityReserve(FMath::Clamp(GetCapacityReserve(), 0.0f, GetMaxCapacityReserve()));
+	} // Health
 	else if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
 		// Handle mana changes.
@@ -226,6 +235,8 @@ void UGDAttributeSetBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, HealthRegenRate, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, CapacityReserve, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, MaxCapacityReserve, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, MaxMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UGDAttributeSetBase, ManaRegenRate, COND_None, REPNOTIFY_Always);
@@ -268,6 +279,16 @@ void UGDAttributeSetBase::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHe
 void UGDAttributeSetBase::OnRep_HealthRegenRate(const FGameplayAttributeData& OldHealthRegenRate)
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UGDAttributeSetBase, HealthRegenRate, OldHealthRegenRate);
+}
+
+void UGDAttributeSetBase::OnRep_CapacityReserve(const FGameplayAttributeData& OldCapacityReserve)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGDAttributeSetBase, CapacityReserve, OldCapacityReserve);
+}
+
+void UGDAttributeSetBase::OnRep_MaxCapacityReserve(const FGameplayAttributeData& OldMaxCapacityReserve)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UGDAttributeSetBase, MaxCapacityReserve, OldMaxCapacityReserve);
 }
 
 void UGDAttributeSetBase::OnRep_Mana(const FGameplayAttributeData& OldMana)

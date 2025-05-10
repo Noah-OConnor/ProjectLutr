@@ -45,6 +45,12 @@ public:
 	float GetHealthRegenRate() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	float GetCapacityReserve() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
+	float GetMaxCapacityReserve() const;
+
+	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
 	float GetMana() const;
 
 	UFUNCTION(BlueprintCallable, Category = "GASDocumentation|GDPlayerState|Attributes")
@@ -95,6 +101,8 @@ protected:
 	FDelegateHandle HealthChangedDelegateHandle;
 	FDelegateHandle MaxHealthChangedDelegateHandle;
 	FDelegateHandle HealthRegenRateChangedDelegateHandle;
+	FDelegateHandle CapacityReserveChangedDelegateHandle;
+	FDelegateHandle MaxCapacityReserveChangedDelegateHandle;
 	FDelegateHandle ManaChangedDelegateHandle;
 	FDelegateHandle MaxManaChangedDelegateHandle;
 	FDelegateHandle ManaRegenRateChangedDelegateHandle;
@@ -112,6 +120,8 @@ protected:
 	virtual void HealthChanged(const FOnAttributeChangeData& Data);
 	virtual void MaxHealthChanged(const FOnAttributeChangeData& Data);
 	virtual void HealthRegenRateChanged(const FOnAttributeChangeData& Data);
+	virtual void CapacityReserveChanged(const FOnAttributeChangeData& Data);
+	virtual void MaxCapacityReserveChanged(const FOnAttributeChangeData& Data);
 	virtual void ManaChanged(const FOnAttributeChangeData& Data);
 	virtual void MaxManaChanged(const FOnAttributeChangeData& Data);
 	virtual void ManaRegenRateChanged(const FOnAttributeChangeData& Data);

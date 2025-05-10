@@ -42,6 +42,8 @@ void AGDPlayerController::CreateHUD()
 	UIHUDWidget->SetCurrentHealth(PS->GetHealth());
 	UIHUDWidget->SetMaxHealth(PS->GetMaxHealth());
 	UIHUDWidget->SetHealthPercentage(PS->GetHealth() / FMath::Max<float>(PS->GetMaxHealth(), 1.f));
+	UIHUDWidget->SetCurrentCapacityReserve(PS->GetCapacityReserve());
+	UIHUDWidget->SetMaxCapacityReserve(PS->GetMaxCapacityReserve());
 	UIHUDWidget->SetCurrentMana(PS->GetMana());
 	UIHUDWidget->SetMaxMana(PS->GetMaxMana());
 	UIHUDWidget->SetManaPercentage(PS->GetMana() / FMath::Max<float>(PS->GetMaxMana(), 1.f));

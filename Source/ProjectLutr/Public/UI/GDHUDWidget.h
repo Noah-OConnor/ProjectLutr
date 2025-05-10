@@ -38,6 +38,15 @@ public:
 	void SetHealthRegenRate(float HealthRegenRate);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetMaxCapacityReserve(float MaxCapacityReserve);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetCurrentCapacityReserve(float CurrentCapacityReserve);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetCapacityReservePercentage(float CapacityReservePercentage);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetMaxStamina(float MaxStamina);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

@@ -76,6 +76,16 @@ float AGDPlayerState::GetHealthRegenRate() const
 	return AttributeSetBase->GetHealthRegenRate();
 }
 
+float AGDPlayerState::GetCapacityReserve() const
+{
+	return AttributeSetBase->GetCapacityReserve();
+}
+
+float AGDPlayerState::GetMaxCapacityReserve() const
+{
+	return AttributeSetBase->GetMaxCapacityReserve();
+}
+
 float AGDPlayerState::GetMana() const
 {
 	return AttributeSetBase->GetMana();
@@ -151,6 +161,8 @@ void AGDPlayerState::BeginPlay()
 		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthAttribute()).AddUObject(this, &AGDPlayerState::HealthChanged);
 		MaxHealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetMaxHealthAttribute()).AddUObject(this, &AGDPlayerState::MaxHealthChanged);
 		HealthRegenRateChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthRegenRateAttribute()).AddUObject(this, &AGDPlayerState::HealthRegenRateChanged);
+		CapacityReserveChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetCapacityReserveAttribute()).AddUObject(this, &AGDPlayerState::CapacityReserveChanged);
+		MaxCapacityReserveChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetMaxCapacityReserveAttribute()).AddUObject(this, &AGDPlayerState::MaxCapacityReserveChanged);
 		ManaChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetManaAttribute()).AddUObject(this, &AGDPlayerState::ManaChanged);
 		MaxManaChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetMaxManaAttribute()).AddUObject(this, &AGDPlayerState::MaxManaChanged);
 		ManaRegenRateChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetManaRegenRateAttribute()).AddUObject(this, &AGDPlayerState::ManaRegenRateChanged);
@@ -235,6 +247,15 @@ void AGDPlayerState::HealthRegenRateChanged(const FOnAttributeChangeData & Data)
 			HUD->SetHealthRegenRate(HealthRegenRate);
 		}
 	}
+}
+
+void AGDPlayerState::CapacityReserveChanged(const FOnAttributeChangeData& Data)
+{
+	// nothing here since we don't need to update the floating hud
+}
+
+void AGDPlayerState::MaxCapacityReserveChanged(const FOnAttributeChangeData& Data)
+{
 }
 
 void AGDPlayerState::ManaChanged(const FOnAttributeChangeData & Data)

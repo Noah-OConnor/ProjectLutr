@@ -48,6 +48,16 @@ public:
 	FGameplayAttributeData HealthRegenRate;
 	ATTRIBUTE_ACCESSORS(UGDAttributeSetBase, HealthRegenRate)
 
+	// Current CapacityReserve
+	UPROPERTY(BlueprintReadOnly, Category = "CapacityReserve", ReplicatedUsing = OnRep_CapacityReserve)
+	FGameplayAttributeData CapacityReserve;
+	ATTRIBUTE_ACCESSORS(UGDAttributeSetBase, CapacityReserve)
+
+	// MaxCapacityReserve is its own attribute since GameplayEffects may modify it
+	UPROPERTY(BlueprintReadOnly, Category = "CapacityReserve", ReplicatedUsing = OnRep_MaxCapacityReserve)
+	FGameplayAttributeData MaxCapacityReserve;
+	ATTRIBUTE_ACCESSORS(UGDAttributeSetBase, MaxCapacityReserve)
+
 	// Current Mana, used to execute special abilities. Capped by MaxMana.
 	UPROPERTY(BlueprintReadOnly, Category = "Mana", ReplicatedUsing = OnRep_Mana)
 	FGameplayAttributeData Mana;
@@ -135,6 +145,12 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRep_HealthRegenRate(const FGameplayAttributeData& OldHealthRegenRate);
+
+	UFUNCTION()
+	virtual void OnRep_CapacityReserve(const FGameplayAttributeData& OldCapacityReserve);
+
+	UFUNCTION()
+	virtual void OnRep_MaxCapacityReserve(const FGameplayAttributeData& OldMaxCapacityReserve);
 
 	UFUNCTION()
 	virtual void OnRep_Mana(const FGameplayAttributeData& OldMana);
