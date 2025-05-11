@@ -1,7 +1,7 @@
 ### Focused (Next Few Sessions)
-- [ ] Implement damage gameplay effect and ensure it works with both hitscan and projectile logic
-- [ ] Create a dummy enemy with health, hit response, and respawn functionality
-- [ ] Add floating health bar to dummy that updates with damage
+- [x] Implement damage gameplay effect and ensure it works with both hitscan logic
+- [x] Create a dummy enemy with health and respawn functionality
+- [x] Add floating health bar to dummy that updates with damage
 - [x] Finalize ammo consumption and reload logic with reserve ammo integration
 - [ ] Polish HUD to display health, mag ammo, and reserve ammo with live updates
 - [ ] Build a small, test-ready combat arena for showcasing core loop (movement, shooting, reloading)
