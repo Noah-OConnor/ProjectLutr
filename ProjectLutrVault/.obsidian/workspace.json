@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Development/Notes/Untitled.md",
+                "file": "Development/ToDoList.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled"
+              "title": "ToDoList"
             }
           }
         ]
@@ -167,23 +167,27 @@
   },
   "active": "3fae9bb8d0659046",
   "lastOpenFiles": [
-    "Development/ProgressLogs/05-02-2025 - 05-09-2025.md",
-    "Development/ProgressLogs/05-10-2025.md",
+    "Development/Notes/Untitled.md",
+    "References/TranekGASDocumentationREADME.md",
+    "Source/GASDocumentation/Private/Characters/Abilities/AsyncTaskCooldownChanged.cpp.md",
+    "Source/GASDocumentation/Private/Characters/Abilities",
+    "Source/GASDocumentation/Private/Characters",
+    "Source/GASDocumentation/Private",
+    "Source/GASDocumentation",
+    "Source",
+    "Development/ToDoList.md",
+    "Development/ToDoList.md",
+    "Development/ProgressLogs/ProgressLog_05-10-2025.md",
+    "Development/ProgressLogs/ProgressLog_05-02-2025-05-09-2025.md",
     "Development/ProgressLogs/05-07-2025.md",
     "Development/ProgressLogs/05-07-2025",
-    "Development/ToDoList.md",
     "GameDesign/ProjectLutrGameDesignDocument.md",
-    "Development/Notes/Untitled.md",
     "Development/Notes",
     "ProjectLutrGameDesignDocument.md",
-    "References/TranekGASDocumentationREADME.md",
     "References",
     "Development/ProgressLogs",
     "Development",
     "New Note.md",
-    "GameDesign",
-    "ProjectLutrVault",
-    "New folder",
     "Welcome.md"
   ]
 }
