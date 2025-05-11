@@ -4,37 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "112157956cbbbe02",
+        "id": "5a0de3ebfe4c7d06",
         "type": "tabs",
         "children": [
           {
-            "id": "3aeed8d75faf4229",
+            "id": "3fae9bb8d0659046",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "New Note.md",
+                "file": "Development/Notes/Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "New Note"
-            }
-          }
-        ]
-      },
-      {
-        "id": "4997eceefcdc33aa",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "ca7926392a4b3ae9",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "title": "Untitled"
             }
           }
         ]
@@ -181,11 +165,25 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3aeed8d75faf4229",
+  "active": "3fae9bb8d0659046",
   "lastOpenFiles": [
+    "Development/ProgressLogs/05-02-2025 - 05-09-2025.md",
+    "Development/ProgressLogs/05-10-2025.md",
+    "Development/ProgressLogs/05-07-2025.md",
+    "Development/ProgressLogs/05-07-2025",
+    "Development/ToDoList.md",
+    "GameDesign/ProjectLutrGameDesignDocument.md",
+    "Development/Notes/Untitled.md",
+    "Development/Notes",
+    "ProjectLutrGameDesignDocument.md",
+    "References/TranekGASDocumentationREADME.md",
+    "References",
+    "Development/ProgressLogs",
+    "Development",
     "New Note.md",
-    "README.md",
+    "GameDesign",
     "ProjectLutrVault",
+    "New folder",
     "Welcome.md"
   ]
 }
