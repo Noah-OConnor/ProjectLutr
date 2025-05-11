@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "5a0de3ebfe4c7d06",
+        "id": "6f6b6fca274eaa61",
         "type": "tabs",
         "children": [
           {
-            "id": "3fae9bb8d0659046",
+            "id": "f6919be877674299",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -165,8 +165,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3fae9bb8d0659046",
+  "active": "f6919be877674299",
   "lastOpenFiles": [
+    "Development/FileHierarchy.md",
+    "Development/NamingConventions.md",
+    "Development/ToDoList.md",
     "Development/Notes/Untitled.md",
     "References/TranekGASDocumentationREADME.md",
     "Source/GASDocumentation/Private/Characters/Abilities/AsyncTaskCooldownChanged.cpp.md",
@@ -175,8 +178,6 @@
     "Source/GASDocumentation/Private",
     "Source/GASDocumentation",
     "Source",
-    "Development/ToDoList.md",
-    "Development/ToDoList.md",
     "Development/ProgressLogs/ProgressLog_05-10-2025.md",
     "Development/ProgressLogs/ProgressLog_05-02-2025-05-09-2025.md",
     "Development/ProgressLogs/05-07-2025.md",
