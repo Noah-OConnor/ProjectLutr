@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Development/ToDoList.md",
+                "file": "Development/ProgressLogs/ProgressLog_05-11-2025.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ToDoList"
+              "title": "ProgressLog_05-11-2025"
             }
           }
         ]
@@ -167,9 +167,12 @@
   },
   "active": "f6919be877674299",
   "lastOpenFiles": [
+    "Development/ToDoList.md",
+    "Development/ProgressLogs/ProgressLog_05-11-2025.md",
+    "Development/ProgressLogs/ProgressLog_05-11-2025.md",
+    "Development/ProgressLogs/ProgressLog_05-10-2025.md",
     "Development/FileHierarchy.md",
     "Development/NamingConventions.md",
-    "Development/ToDoList.md",
     "Development/Notes/Untitled.md",
     "References/TranekGASDocumentationREADME.md",
     "Source/GASDocumentation/Private/Characters/Abilities/AsyncTaskCooldownChanged.cpp.md",
@@ -178,7 +181,6 @@
     "Source/GASDocumentation/Private",
     "Source/GASDocumentation",
     "Source",
-    "Development/ProgressLogs/ProgressLog_05-10-2025.md",
     "Development/ProgressLogs/ProgressLog_05-02-2025-05-09-2025.md",
     "Development/ProgressLogs/05-07-2025.md",
     "Development/ProgressLogs/05-07-2025",
