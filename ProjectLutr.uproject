@@ -38,10 +38,6 @@
 			]
 		},
 		{
-			"Name": "Bridge",
-			"Enabled": true
-		},
-		{
 			"Name": "AndroidFileServer",
 			"Enabled": false
 		}
