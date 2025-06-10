@@ -106,7 +106,7 @@ EGDHitReactDirection AGDCharacterBase::GetHitReactDirection(const FVector & Impa
 		}
 	}
 
-	return EGDHitReactDirection::Front;
+//	return EGDHitReactDirection::Front;
 }
 
 void AGDCharacterBase::PlayHitReact_Implementation(FGameplayTag HitDirection, AActor * DamageCauser)
