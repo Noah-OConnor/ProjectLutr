@@ -2,9 +2,9 @@
 
 #include "ProjectLutr/ProjectLutrGameMode.h"
 #include "Engine/World.h"
-#include "Characters/Heroes/GDHeroCharacter.h"
-#include "Player/GDPlayerController.h"
-#include "Player/GDPlayerState.h"
+#include "Characters/Heroes/LutrCharacter.h"
+#include "Player/LutrPlayerController.h"
+#include "Player/LutrPlayerState.h"
 #include "GameFramework/SpectatorPawn.h"
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
@@ -36,7 +36,7 @@ void AProjectLutrGameMode::HeroDied(AController* Controller)
 	RespawnDelegate = FTimerDelegate::CreateUObject(this, &AProjectLutrGameMode::RespawnHero, Controller);
 	GetWorldTimerManager().SetTimer(RespawnTimerHandle, RespawnDelegate, RespawnDelay, false);
 
-	AGDPlayerController* PC = Cast<AGDPlayerController>(Controller);
+	ALutrPlayerController* PC = Cast<ALutrPlayerController>(Controller);
 	if (PC)
 	{
 		PC->SetRespawnCountdown(RespawnDelay);
@@ -70,7 +70,7 @@ void AProjectLutrGameMode::RespawnHero(AController * Controller)
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-		AGDHeroCharacter* Hero = GetWorld()->SpawnActor<AGDHeroCharacter>(HeroClass, PlayerStart->GetActorLocation(), PlayerStart->GetActorRotation(), SpawnParameters);
+		ALutrCharacter* Hero = GetWorld()->SpawnActor<ALutrCharacter>(HeroClass, PlayerStart->GetActorLocation(), PlayerStart->GetActorRotation(), SpawnParameters);
 
 		APawn* OldSpectatorPawn = Controller->GetPawn();
 		Controller->UnPossess();
@@ -83,7 +83,7 @@ void AProjectLutrGameMode::RespawnHero(AController * Controller)
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-		AGDHeroCharacter* Hero = GetWorld()->SpawnActor<AGDHeroCharacter>(HeroClass, EnemySpawnPoint->GetActorTransform(), SpawnParameters);
+		ALutrCharacter* Hero = GetWorld()->SpawnActor<ALutrCharacter>(HeroClass, EnemySpawnPoint->GetActorTransform(), SpawnParameters);
 		
 		APawn* OldSpectatorPawn = Controller->GetPawn();
 		Controller->UnPossess();
