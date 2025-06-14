@@ -35,20 +35,20 @@ FWeaponStats UCraftingComponent::CombineStatsFromParts(const TArray<UWeaponPartD
 	{
 		for (const auto& Stat : Part->StatModifiers)
 		{
-			FName StatName = Stat.Key;
-			float Value = Stat.Value;
-
-			if (StatName == "Damage") Result.Damage += Value;
-			else if (StatName == "Range") Result.Range += Value;
-			else if (StatName == "Accuracy") Result.Accuracy += Value;
-			else if (StatName == "FireRate") Result.FireRate += Value;
-			else if (StatName == "Recoil") Result.Recoil += Value;
-			else if (StatName == "Stability") Result.Stability += Value;
-			else if (StatName == "Capacity") Result.Capacity += Value;
-			else if (StatName == "ProjectileSpeed") Result.ProjectileSpeed += Value;
-			else if (StatName == "ReloadSpeed") Result.ReloadSpeed += Value;
-			else if (StatName == "Piercing") Result.Piercing += Value;
-			else if (StatName == "Weight") Result.Weight += Value;
+			// FName StatName = Stat.Key;
+			// float Value = Stat.Value;
+			//
+			// if (StatName == "Damage") Result.Damage += Value;
+			// else if (StatName == "Range") Result.Range += Value;
+			// else if (StatName == "Accuracy") Result.Accuracy += Value;
+			// else if (StatName == "FireRate") Result.FireRate += Value;
+			// else if (StatName == "Recoil") Result.Recoil += Value;
+			// else if (StatName == "Stability") Result.Stability += Value;
+			// else if (StatName == "Capacity") Result.Capacity += Value;
+			// else if (StatName == "ProjectileSpeed") Result.ProjectileSpeed += Value;
+			// else if (StatName == "ReloadSpeed") Result.ReloadSpeed += Value;
+			// else if (StatName == "Piercing") Result.Piercing += Value;
+			// else if (StatName == "Weight") Result.Weight += Value;
 		}
 	}
 

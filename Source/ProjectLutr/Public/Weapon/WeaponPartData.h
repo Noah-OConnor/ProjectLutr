@@ -22,6 +22,24 @@ enum class EWeaponPartType : uint8
 	Underbarrel
 };
 
+UENUM(BlueprintType)
+enum class EWeaponStatType : uint8
+{
+	Damage,
+	Range,
+	Accuracy,
+	FireRate,
+	Recoil,
+	Weight,
+	Capacity,
+	ProjectileSpeed,
+	ReloadSpeed,
+	RechargeRate,
+	Stability,
+	Piercing,
+	AmmoType
+};
+
 /**
  * 
  */
@@ -39,8 +57,14 @@ public:
 	FText PartName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TMap<FName, float> StatModifiers;
+	UStaticMesh* PartMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 RarityTier;
+	TMap<EWeaponStatType, float> StatModifiers;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon Slot System")
+	TArray<EWeaponPartType> ChildSlots;
+
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	// int32 RarityTier;
 };
