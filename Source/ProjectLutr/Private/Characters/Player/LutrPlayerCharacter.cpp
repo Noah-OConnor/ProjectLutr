@@ -1,7 +1,9 @@
 // Copyright 2020 Dan Kestranek.
 
 
-#include "Characters/Heroes/LutrCharacter.h"
+#include "Characters/Player/LutrPlayerCharacter.h"
+
+#include "InventoryComponent.h"
 #include "AI/LutrAIController.h"
 #include "Camera/CameraComponent.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
@@ -18,8 +20,9 @@
 #include "UI/LutrFloatingStatusBarWidget.h"
 #include "UObject/ConstructorHelpers.h"
 
-ALutrCharacter::ALutrCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 	/*CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bUsePawnControlRotation = true;
@@ -57,24 +60,24 @@ ALutrCharacter::ALutrCharacter(const class FObjectInitializer& ObjectInitializer
 }
 
 // Called to bind functionality to input
-void ALutrCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ALutrPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ALutrCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ALutrCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForward", this, &ALutrPlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ALutrPlayerCharacter::MoveRight);
 
-	PlayerInputComponent->BindAxis("LookUp", this, &ALutrCharacter::LookUp);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &ALutrCharacter::LookUpRate);
-	PlayerInputComponent->BindAxis("Turn", this, &ALutrCharacter::Turn);
-	PlayerInputComponent->BindAxis("TurnRate", this, &ALutrCharacter::TurnRate);
+	PlayerInputComponent->BindAxis("LookUp", this, &ALutrPlayerCharacter::LookUp);
+	PlayerInputComponent->BindAxis("LookUpRate", this, &ALutrPlayerCharacter::LookUpRate);
+	PlayerInputComponent->BindAxis("Turn", this, &ALutrPlayerCharacter::Turn);
+	PlayerInputComponent->BindAxis("TurnRate", this, &ALutrPlayerCharacter::TurnRate);
 
 	// Bind player input to the AbilitySystemComponent. Also called in OnRep_PlayerState because of a potential race condition.
 	BindASCInput();
 }
 
 // Server only
-void ALutrCharacter::PossessedBy(AController * NewController)
+void ALutrPlayerCharacter::PossessedBy(AController * NewController)
 {
 	Super::PossessedBy(NewController);
 
@@ -142,7 +145,7 @@ void ALutrCharacter::PossessedBy(AController * NewController)
 //	return StartingCameraBoomLocation;
 //}
 
-ULutrFloatingStatusBarWidget * ALutrCharacter::GetFloatingStatusBar()
+ULutrFloatingStatusBarWidget * ALutrPlayerCharacter::GetFloatingStatusBar()
 {
 	return UIFloatingStatusBar;
 }
@@ -152,7 +155,7 @@ ULutrFloatingStatusBarWidget * ALutrCharacter::GetFloatingStatusBar()
 //	return GunComponent;
 //}
 
-void ALutrCharacter::FinishDying()
+void ALutrPlayerCharacter::FinishDying()
 {
 	if (GetLocalRole() == ROLE_Authority)
 	{
@@ -172,7 +175,7 @@ void ALutrCharacter::FinishDying()
 * On the Client, BeginPlay happens before Possession.
 * So we can't use BeginPlay to do anything with the AbilitySystemComponent because we don't have it until the PlayerState replicates from possession.
 */
-void ALutrCharacter::BeginPlay()
+void ALutrPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -185,7 +188,7 @@ void ALutrCharacter::BeginPlay()
 	StartingCameraBoomLocation = CameraBoom->GetRelativeLocation();*/
 }
 
-void ALutrCharacter::PostInitializeComponents()
+void ALutrPlayerCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
@@ -195,7 +198,7 @@ void ALutrCharacter::PostInitializeComponents()
 	//}
 }
 
-void ALutrCharacter::LookUp(float Value)
+void ALutrPlayerCharacter::LookUp(float Value)
 {
 	if (IsAlive())
 	{
@@ -203,7 +206,7 @@ void ALutrCharacter::LookUp(float Value)
 	}
 }
 
-void ALutrCharacter::LookUpRate(float Value)
+void ALutrPlayerCharacter::LookUpRate(float Value)
 {
 	if (IsAlive())
 	{
@@ -211,7 +214,7 @@ void ALutrCharacter::LookUpRate(float Value)
 	}
 }
 
-void ALutrCharacter::Turn(float Value)
+void ALutrPlayerCharacter::Turn(float Value)
 {
 	if (IsAlive())
 	{
@@ -219,7 +222,7 @@ void ALutrCharacter::Turn(float Value)
 	}
 }
 
-void ALutrCharacter::TurnRate(float Value)
+void ALutrPlayerCharacter::TurnRate(float Value)
 {
 	if (IsAlive())
 	{
@@ -227,17 +230,17 @@ void ALutrCharacter::TurnRate(float Value)
 	}
 }
 
-void ALutrCharacter::MoveForward(float Value)
+void ALutrPlayerCharacter::MoveForward(float Value)
 {
 	AddMovementInput(UKismetMathLibrary::GetForwardVector(FRotator(0, GetControlRotation().Yaw, 0)), Value);
 }
 
-void ALutrCharacter::MoveRight(float Value)
+void ALutrPlayerCharacter::MoveRight(float Value)
 {
 	AddMovementInput(UKismetMathLibrary::GetRightVector(FRotator(0, GetControlRotation().Yaw, 0)), Value);
 }
 
-void ALutrCharacter::InitializeFloatingStatusBar()
+void ALutrPlayerCharacter::InitializeFloatingStatusBar()
 {
 	// Only create once
 	if (UIFloatingStatusBar || !AbilitySystemComponent.IsValid())
@@ -265,7 +268,7 @@ void ALutrCharacter::InitializeFloatingStatusBar()
 }
 
 // Client only
-void ALutrCharacter::OnRep_PlayerState()
+void ALutrPlayerCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
@@ -310,7 +313,7 @@ void ALutrCharacter::OnRep_PlayerState()
 	}
 }
 
-void ALutrCharacter::BindASCInput()
+void ALutrPlayerCharacter::BindASCInput()
 {
 	if (!ASCInputBound && AbilitySystemComponent.IsValid() && IsValid(InputComponent))
 	{

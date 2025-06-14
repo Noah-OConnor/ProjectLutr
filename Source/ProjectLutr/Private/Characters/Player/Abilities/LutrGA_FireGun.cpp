@@ -1,10 +1,10 @@
 // Copyright 2020 Dan Kestranek.
 
 
-#include "Characters/Heroes/Abilities/LutrGA_FireGun.h"
+#include "Characters/Player/Abilities/LutrGA_FireGun.h"
 #include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Characters/Heroes/LutrCharacter.h"
+#include "Characters/Player/LutrPlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -72,7 +72,7 @@ void ULutrGA_FireGun::EventReceived(FGameplayTag EventTag, FGameplayEventData Ev
 	// Predicting projectiles is an advanced topic not covered in this example.
 	if (GetOwningActorFromActorInfo()->GetLocalRole() == ROLE_Authority && EventTag == FGameplayTag::RequestGameplayTag(FName("Event.Montage.SpawnProjectile")))
 	{
-		ALutrCharacter* Hero = Cast<ALutrCharacter>(GetAvatarActorFromActorInfo());
+		ALutrPlayerCharacter* Hero = Cast<ALutrPlayerCharacter>(GetAvatarActorFromActorInfo());
 		if (!Hero)
 		{
 			EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, true);

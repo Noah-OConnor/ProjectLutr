@@ -4,7 +4,7 @@
 #include "Player/LutrPlayerState.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
-#include "Characters/Heroes/LutrCharacter.h"
+#include "Characters/Player/LutrPlayerCharacter.h"
 #include "Player/LutrPlayerController.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
 #include "UI/LutrHUDWidget.h"
@@ -183,7 +183,7 @@ void ALutrPlayerState::HealthChanged(const FOnAttributeChangeData & Data)
 	float Health = Data.NewValue;
 
 	// Update floating status bar
-	ALutrCharacter* Hero = Cast<ALutrCharacter>(GetPawn());
+	ALutrPlayerCharacter* Hero = Cast<ALutrPlayerCharacter>(GetPawn());
 	if (Hero)
 	{
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();
@@ -211,7 +211,7 @@ void ALutrPlayerState::MaxHealthChanged(const FOnAttributeChangeData & Data)
 	float MaxHealth = Data.NewValue;
 
 	// Update floating status bar
-	ALutrCharacter* Hero = Cast<ALutrCharacter>(GetPawn());
+	ALutrPlayerCharacter* Hero = Cast<ALutrPlayerCharacter>(GetPawn());
 	if (Hero)
 	{
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();
@@ -263,7 +263,7 @@ void ALutrPlayerState::ManaChanged(const FOnAttributeChangeData & Data)
 	float Mana = Data.NewValue;
 
 	// Update floating status bar
-	ALutrCharacter* Hero = Cast<ALutrCharacter>(GetPawn());
+	ALutrPlayerCharacter* Hero = Cast<ALutrPlayerCharacter>(GetPawn());
 	if (Hero)
 	{
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();
@@ -282,7 +282,7 @@ void ALutrPlayerState::MaxManaChanged(const FOnAttributeChangeData & Data)
 	float MaxMana = Data.NewValue;
 
 	// Update floating status bar
-	ALutrCharacter* Hero = Cast<ALutrCharacter>(GetPawn());
+	ALutrPlayerCharacter* Hero = Cast<ALutrPlayerCharacter>(GetPawn());
 	if (Hero)
 	{
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();

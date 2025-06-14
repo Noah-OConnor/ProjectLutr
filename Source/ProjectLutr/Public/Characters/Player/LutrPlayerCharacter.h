@@ -4,18 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Characters/LutrCharacterBase.h"
-#include "LutrCharacter.generated.h"
+#include "LutrPlayerCharacter.generated.h"
 
+class UInventoryComponent;
 /**
  * A player or AI controlled hero character.
  */
 UCLASS()
-class PROJECTLUTR_API ALutrCharacter : public ALutrCharacterBase
+class PROJECTLUTR_API ALutrPlayerCharacter : public ALutrCharacterBase
 {
 	GENERATED_BODY()
 
 public:
-	ALutrCharacter(const class FObjectInitializer& ObjectInitializer);
+	ALutrPlayerCharacter(const class FObjectInitializer& ObjectInitializer);
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -40,6 +41,9 @@ public:
 	virtual void FinishDying() override;
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
+	UInventoryComponent* InventoryComponent;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectLutr|Camera")
 	float BaseTurnRate = 45.0f;
 

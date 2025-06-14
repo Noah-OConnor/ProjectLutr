@@ -3,7 +3,7 @@
 
 #include "Player/LutrPlayerController.h"
 #include "AbilitySystemComponent.h"
-#include "Characters/Heroes/LutrCharacter.h"
+#include "Characters/Player/LutrPlayerCharacter.h"
 #include "Player/LutrPlayerState.h"
 #include "UI/LutrDamageTextWidgetComponent.h"
 #include "UI/LutrHUDWidget.h"

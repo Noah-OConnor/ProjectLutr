@@ -2,7 +2,7 @@
 
 #include "ProjectLutr/ProjectLutrGameMode.h"
 #include "Engine/World.h"
-#include "Characters/Heroes/LutrCharacter.h"
+#include "Characters/Player/LutrPlayerCharacter.h"
 #include "Player/LutrPlayerController.h"
 #include "Player/LutrPlayerState.h"
 #include "GameFramework/SpectatorPawn.h"
@@ -70,7 +70,7 @@ void AProjectLutrGameMode::RespawnHero(AController * Controller)
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-		ALutrCharacter* Hero = GetWorld()->SpawnActor<ALutrCharacter>(HeroClass, PlayerStart->GetActorLocation(), PlayerStart->GetActorRotation(), SpawnParameters);
+		ALutrPlayerCharacter* Hero = GetWorld()->SpawnActor<ALutrPlayerCharacter>(HeroClass, PlayerStart->GetActorLocation(), PlayerStart->GetActorRotation(), SpawnParameters);
 
 		APawn* OldSpectatorPawn = Controller->GetPawn();
 		Controller->UnPossess();
@@ -83,7 +83,7 @@ void AProjectLutrGameMode::RespawnHero(AController * Controller)
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-		ALutrCharacter* Hero = GetWorld()->SpawnActor<ALutrCharacter>(HeroClass, EnemySpawnPoint->GetActorTransform(), SpawnParameters);
+		ALutrPlayerCharacter* Hero = GetWorld()->SpawnActor<ALutrPlayerCharacter>(HeroClass, EnemySpawnPoint->GetActorTransform(), SpawnParameters);
 		
 		APawn* OldSpectatorPawn = Controller->GetPawn();
 		Controller->UnPossess();

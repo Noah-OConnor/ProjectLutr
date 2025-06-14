@@ -19,7 +19,7 @@ public:
 protected:
 	float RespawnDelay;
 
-	TSubclassOf<class ALutrCharacter> HeroClass;
+	TSubclassOf<class ALutrPlayerCharacter> HeroClass;
 
 	AActor* EnemySpawnPoint;
 
