@@ -1,5 +1,5 @@
 #include "InventoryComponent.h"
-#include "WeaponPartData.h"
+#include "Weapon/WeaponPartData.h"
 
 UInventoryComponent::UInventoryComponent()
 {

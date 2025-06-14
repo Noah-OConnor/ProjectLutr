@@ -4,6 +4,7 @@
 #include "Characters/Player/LutrPlayerCharacter.h"
 
 #include "InventoryComponent.h"
+#include "Weapon/CraftingComponent.h"
 #include "AI/LutrAIController.h"
 #include "Camera/CameraComponent.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
@@ -23,6 +24,7 @@
 ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	CraftingComponent = CreateDefaultSubobject<UCraftingComponent>(TEXT("CraftingComponent"));
 	/*CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bUsePawnControlRotation = true;

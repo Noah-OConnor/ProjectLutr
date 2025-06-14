@@ -7,6 +7,7 @@
 #include "LutrPlayerCharacter.generated.h"
 
 class UInventoryComponent;
+class UCraftingComponent;
 /**
  * A player or AI controlled hero character.
  */
@@ -43,6 +44,8 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
 	UInventoryComponent* InventoryComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
+	UCraftingComponent* CraftingComponent;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectLutr|Camera")
 	float BaseTurnRate = 45.0f;

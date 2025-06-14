@@ -1,8 +1,8 @@
-#include "WeaponPartPickup.h"
+#include "Weapon/WeaponPartPickup.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "InventoryComponent.h"
-#include "WeaponPartData.h"
+#include "Weapon/WeaponPartData.h"
 #include "GameFramework/Character.h"
 
 AWeaponPartPickup::AWeaponPartPickup()
