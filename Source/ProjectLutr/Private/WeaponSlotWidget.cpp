@@ -1,34 +1,44 @@
-
 #include "WeaponSlotWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
+#include "Components/Button.h"
 
-void UWeaponSlotWidget::InitializeSlot(const EWeaponPartType SlotType)
+void UWeaponSlotWidget::InitializeSlot(EWeaponPartType InSlotType, UWeaponPartData* EquippedPart)
 {
+	SlotType = InSlotType;
+	CurrentPart = EquippedPart;
+
 	if (SlotTypeLabel)
 	{
-		// Use DisplayName override or fallback to enum string
-		FText LabelText = FText::FromString(UEnum::GetValueAsString(SlotType).RightChop(18)); // remove "EWeaponPartType::"
-
-		SlotTypeLabel->SetText(LabelText);
-	}
-
-	if (PartIcon)
-	{
-		// if (SlotData.Icon)
-		// {
-		// 	FSlateBrush Brush;
-		// 	Brush.SetResourceObject(SlotData.Icon);
-		// 	PartIcon->SetBrush(Brush);
-		// }
-		// else
-		// {
-		// 	PartIcon->SetBrushFromTexture(nullptr); // or a default icon
-		// }
+		FString EnumString = UEnum::GetValueAsString(SlotType);
+		SlotTypeLabel->SetText(FText::FromString(EnumString.RightChop(18))); // Strip "EWeaponPartType::"
 	}
 
 	if (PartNameLabel)
 	{
-		PartNameLabel->SetText(FText::FromString("Empty")); // Can be replaced later
+		PartNameLabel->SetText(CurrentPart ? CurrentPart->PartName : FText::FromString("Empty"));
 	}
+
+	if (PartIcon)
+	{
+		if (CurrentPart && CurrentPart->PartMesh)
+		{
+			// Optional: generate thumbnail dynamically
+			PartIcon->SetBrushFromTexture(nullptr); // placeholder
+		}
+		else
+		{
+			PartIcon->SetBrushFromTexture(nullptr);
+		}
+	}
+
+	if (SlotButton)
+	{
+		SlotButton->OnClicked.AddDynamic(this, &UWeaponSlotWidget::HandleClick);
+	}
+}
+
+void UWeaponSlotWidget::HandleClick()
+{
+	OnSlotClicked.ExecuteIfBound(SlotType);
 }

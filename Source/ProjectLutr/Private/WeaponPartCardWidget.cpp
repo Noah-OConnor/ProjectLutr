@@ -70,8 +70,8 @@ UTexture2D* UWeaponPartCardWidget::CaptureThumbnailWithTransparency(UStaticMesh*
 	USceneCaptureComponent2D* CaptureComp = CaptureActor->GetCaptureComponent2D();
 	CaptureComp->CaptureSource = ESceneCaptureSource::SCS_FinalColorLDR;
 	CaptureComp->FOVAngle = 20.f;
-	CaptureActor->SetActorLocation(PreviewOrigin + FVector(200.f, 0.f, 0.f));
-	CaptureComp->SetRelativeRotation(FRotator(0.f, -180.f, 0.f));
+	CaptureActor->SetActorLocation(PreviewOrigin + FVector(0.f, -200.f, 0.f));
+	CaptureComp->SetRelativeRotation(FRotator(0.f, 90.f, 0.f));
 
 
 	// Remove unnecessary visual features
@@ -97,8 +97,6 @@ UTexture2D* UWeaponPartCardWidget::CaptureThumbnailWithTransparency(UStaticMesh*
 
 	// Capture it now
 	CaptureComp->CaptureScene();
-
-
 
 	// Read pixels
 	TArray<FColor> Pixels;

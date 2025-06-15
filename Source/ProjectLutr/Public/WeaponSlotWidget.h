@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Weapon/WeaponPartData.h"
 #include "WeaponSlotWidget.generated.h"
 
-enum class EWeaponPartType : uint8;
 class UTextBlock;
 class UImage;
+
+DECLARE_DELEGATE_OneParam(FOnSlotClicked, EWeaponPartType)
 
 /**
  * 
@@ -20,7 +22,8 @@ class PROJECTLUTR_API UWeaponSlotWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void InitializeSlot(const EWeaponPartType SlotType);
+	void InitializeSlot(EWeaponPartType InSlotType, UWeaponPartData* EquippedPart);
+	FOnSlotClicked OnSlotClicked;
 
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -31,4 +34,16 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* PartNameLabel;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SlotButton;
+
+	UFUNCTION()
+	void HandleClick();
+
+	UPROPERTY()
+	EWeaponPartType SlotType;
+
+	UPROPERTY()
+	UWeaponPartData* CurrentPart;
 };

@@ -2,6 +2,8 @@
 
 
 #include "InventoryWidget.h"
+
+#include "WeaponBuilderWidget.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
 #include "Weapon/WeaponPartData.h"
@@ -34,6 +36,33 @@ void UInventoryWidget::PopulateBaseParts(const TArray<UWeaponPartData*>& BasePar
 
 void UInventoryWidget::HandleBasePartSelected(UWeaponPartData* SelectedPart)
 {
-	// TODO: Open Weapon Builder with this base part
-	UE_LOG(LogTemp, Warning, TEXT("Selected Base: %s"), *SelectedPart->PartName.ToString());
+	if (!SelectedPart) return;
+
+	// Create builder widget
+	if (BuilderWidgetClass)
+	{
+		UWeaponBuilderWidget* BuilderWidget = CreateWidget<UWeaponBuilderWidget>(GetOwningPlayer(), BuilderWidgetClass);
+		if (BuilderWidget)
+		{
+			// Pass the base part to initialize the builder
+			BuilderWidget->InitializeFromBase(SelectedPart);
+
+			// Remove the inventory UI
+			RemoveFromParent();
+
+			// Show builder
+			BuilderWidget->AddToViewport();
+
+			// Set input mode (if needed)
+			APlayerController* PC = GetOwningPlayer();
+			if (PC)
+			{
+				FInputModeUIOnly InputMode;
+				InputMode.SetWidgetToFocus(BuilderWidget->TakeWidget());
+				PC->SetInputMode(InputMode);
+				PC->bShowMouseCursor = true;
+			}
+		}
+	}
 }
+

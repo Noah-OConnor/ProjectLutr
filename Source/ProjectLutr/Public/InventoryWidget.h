@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class UWeaponBuilderWidget;
 class UUniformGridPanel;
 class UWeaponPartData;
 class UWeaponPartCardWidget;
@@ -28,8 +29,10 @@ protected:
 	// Bind to this in UMG (named exactly in editor)
 	UPROPERTY(meta = (BindWidget))
 	UUniformGridPanel* BasePartGrid;
-
-	// Set in Blueprint or C++
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|UI")
 	TSubclassOf<UWeaponPartCardWidget> BasePartCardClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|UI")
+	TSubclassOf<UWeaponBuilderWidget> BuilderWidgetClass;
 };
