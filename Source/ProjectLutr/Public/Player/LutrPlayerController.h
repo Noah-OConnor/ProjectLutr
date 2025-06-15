@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "InputActionValue.h"
+#include "InputMappingContext.h"
 #include "GameFramework/PlayerController.h"
-#include "Characters/LutrCharacterBase.h"
 #include "LutrPlayerController.generated.h"
 
 /**
@@ -16,6 +19,9 @@ class PROJECTLUTR_API ALutrPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
+	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+	
 	void CreateHUD();
 
 	UPROPERTY(EditAnywhere, Category = "ProjectLutr|UI")
@@ -35,6 +41,15 @@ public:
 	bool SetRespawnCountdown_Validate(float RespawnTimeRemaining);
 
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputMappingContext* PlayerMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* OpenInventoryAction;
+
+	UFUNCTION()
+	void HandleOpenInventory(const FInputActionValue& ActionValue);
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectLutr|UI")
 	TSubclassOf<class ULutrHUDWidget> UIHUDWidgetClass;
 
@@ -45,4 +60,11 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	virtual void OnRep_PlayerState() override;
+
+private:
+	UPROPERTY()
+	TObjectPtr<class UInventoryWidget> InventoryWidget;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|UI")
+	TSubclassOf<UInventoryWidget> InventoryWidgetClass;
 };
