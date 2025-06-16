@@ -5,6 +5,7 @@
 #include "Weapon/WeaponPartData.h"
 #include "WeaponBuilderWidget.generated.h"
 
+class UImage;
 class UWrapBox;
 class UTextBlock;
 class UWeaponSlotWidget;
@@ -24,6 +25,9 @@ protected:
 	UWrapBox* SlotWrapBox;
 
 	UPROPERTY(meta = (BindWidget))
+	UImage* PreviewImage;
+
+	UPROPERTY(meta = (BindWidget))
 	UTextBlock* StatDamage;
 
 	UPROPERTY(meta = (BindWidget))
@@ -34,7 +38,7 @@ protected:
 
 	// Add more as needed...
 
-	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|UI")
 	TSubclassOf<UWeaponSlotWidget> SlotWidgetClass;
 
 	UPROPERTY()

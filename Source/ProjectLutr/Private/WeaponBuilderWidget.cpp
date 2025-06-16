@@ -4,6 +4,8 @@
 #include "Components/TextBlock.h"
 #include "WeaponSlotWidget.h"
 #include "WeaponPreviewActor.h"
+#include "Components/Image.h"
+#include "Engine/TextureRenderTarget2D.h"
 #include "Kismet/GameplayStatics.h"
 
 void UWeaponBuilderWidget::InitializeFromBase(UWeaponPartData* InBasePart)
@@ -65,12 +67,13 @@ void UWeaponBuilderWidget::SpawnOrUpdatePreview()
 
 	if (!PreviewActor)
 	{
-		TArray<AActor*> Found;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AWeaponPreviewActor::StaticClass(), Found);
-		if (Found.Num() > 0)
-		{
-			PreviewActor = Cast<AWeaponPreviewActor>(Found[0]);
-		}
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		FVector SpawnLoc(0.f, 0.f, 100.f);
+		FRotator SpawnRot(0.f, -90.f, 0.f);
+
+		PreviewActor = GetWorld()->SpawnActor<AWeaponPreviewActor>(AWeaponPreviewActor::StaticClass(), SpawnLoc, SpawnRot, SpawnParams);
 	}
 
 	if (PreviewActor)
@@ -82,6 +85,15 @@ void UWeaponBuilderWidget::SpawnOrUpdatePreview()
 				Parts.Add(Pair.Value);
 		}
 		PreviewActor->AssembleWeaponFromParts(Parts);
+
+		UTextureRenderTarget2D* RenderTarget = PreviewActor->GetPreviewRenderTarget();
+		if (RenderTarget && PreviewImage)
+		{
+			FSlateBrush Brush;
+			Brush.SetResourceObject(RenderTarget);
+			Brush.ImageSize = FVector2D(512.f, 512.f);
+			PreviewImage->SetBrush(Brush);
+		}
 	}
 }
 

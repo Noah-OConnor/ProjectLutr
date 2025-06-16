@@ -1,5 +1,3 @@
-// Copyright 2023 Dan Kestranek.
-
 #pragma once
 
 #include "CoreMinimal.h"

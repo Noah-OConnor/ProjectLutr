@@ -11,7 +11,7 @@ void UWeaponSlotWidget::InitializeSlot(EWeaponPartType InSlotType, UWeaponPartDa
 	if (SlotTypeLabel)
 	{
 		FString EnumString = UEnum::GetValueAsString(SlotType);
-		SlotTypeLabel->SetText(FText::FromString(EnumString.RightChop(18))); // Strip "EWeaponPartType::"
+		SlotTypeLabel->SetText(FText::FromString(EnumString.RightChop(17))); // Strip "EWeaponPartType::"
 	}
 
 	if (PartNameLabel)

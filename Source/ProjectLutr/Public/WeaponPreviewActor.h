@@ -17,16 +17,23 @@ class PROJECTLUTR_API AWeaponPreviewActor : public AActor
 public:
 	AWeaponPreviewActor();
 
-	// Main entry to build the weapon from part data
 	UFUNCTION(BlueprintCallable)
 	void AssembleWeaponFromParts(const TArray<UWeaponPartData*>& Parts);
+
+	UTextureRenderTarget2D* GetPreviewRenderTarget() const { return RenderTarget; }
 
 protected:
 	UPROPERTY()
 	TMap<EWeaponPartType, UStaticMeshComponent*> MeshComponents;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Preview")
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Preview")
 	TSubclassOf<UStaticMeshComponent> MeshComponentClass;
+
+	UPROPERTY()
+	USceneCaptureComponent2D* CaptureComponent;
+
+	UPROPERTY()
+	UTextureRenderTarget2D* RenderTarget;
 
 	void ClearPreviousParts();
 	void AttachMeshPart(EWeaponPartType PartType, UStaticMesh* Mesh);
