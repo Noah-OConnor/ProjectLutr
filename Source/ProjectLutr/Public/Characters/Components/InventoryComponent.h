@@ -5,6 +5,7 @@
 #include "InventoryComponent.generated.h"
 
 class UWeaponPartData;
+class UWeaponInstance;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTLUTR_API UInventoryComponent : public UActorComponent
@@ -14,19 +15,29 @@ class PROJECTLUTR_API UInventoryComponent : public UActorComponent
 public:	
 	UInventoryComponent();
 
+	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
+	void AddWeapon(UWeaponInstance* Weapon);
+
+	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
+	bool RemoveWeapon(UWeaponInstance* Weapon);
+
+	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
+	const TArray<UWeaponInstance*>& GetWeapons() const;
+
+	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
+	UWeaponInstance* GetWeaponAt(int32 Index) const;
+
 protected:
-	virtual void BeginPlay() override;
+	UPROPERTY(SaveGame, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
+	TArray<TObjectPtr<UWeaponInstance>> Weapons;
 
 public:
-	// Add a weapon part to the inventory
 	UFUNCTION(BlueprintCallable)
 	bool AddWeaponPart(UWeaponPartData* NewPart);
 
-	// Remove a part (if needed)
 	UFUNCTION(BlueprintCallable)
 	bool RemoveWeaponPart(UWeaponPartData* PartToRemove);
 
-	// Get all weapon parts
 	UFUNCTION(BlueprintCallable)
 	const TArray<UWeaponPartData*>& GetInventory() const;
 

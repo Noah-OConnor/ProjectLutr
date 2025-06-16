@@ -1,13 +1,13 @@
 // Copyright 2025 Project Lutr
 
 
-#include "InventoryWidget.h"
+#include "UI/Inventory/InventoryWidget.h"
 
-#include "WeaponBuilderWidget.h"
+#include "UI/Inventory/WeaponBuilderWidget.h"
 #include "Components/UniformGridPanel.h"
 #include "Components/UniformGridSlot.h"
 #include "Weapon/WeaponPartData.h"
-#include "WeaponPartCardWidget.h"
+#include "UI/Inventory/WeaponPartCardWidget.h"
 
 void UInventoryWidget::PopulateBaseParts(const TArray<UWeaponPartData*>& BaseParts)
 {

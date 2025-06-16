@@ -1,4 +1,4 @@
-#include "WeaponSlotWidget.h"
+#include "UI/Inventory/WeaponSlotWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Components/Button.h"

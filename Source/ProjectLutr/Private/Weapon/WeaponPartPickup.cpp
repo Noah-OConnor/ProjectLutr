@@ -1,7 +1,7 @@
 #include "Weapon/WeaponPartPickup.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "InventoryComponent.h"
+#include "Characters/Components/InventoryComponent.h"
 #include "Weapon/WeaponPartData.h"
 #include "GameFramework/Character.h"
 
@@ -24,7 +24,6 @@ void AWeaponPartPickup::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
 
 void AWeaponPartPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 									   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,

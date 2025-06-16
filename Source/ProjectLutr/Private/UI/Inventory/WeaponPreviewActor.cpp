@@ -1,7 +1,7 @@
 // Copyright 2025 Project Lutr
 
 
-#include "WeaponPreviewActor.h"
+#include "UI/Inventory/WeaponPreviewActor.h"
 
 #include "Components/SceneCaptureComponent2D.h"
 #include "Components/StaticMeshComponent.h"

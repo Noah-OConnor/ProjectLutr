@@ -1,7 +1,7 @@
 // Copyright 2025 Project Lutr
 
 
-#include "WeaponPartCardWidget.h"
+#include "UI/Inventory/WeaponPartCardWidget.h"
 
 #include "Components/Button.h"
 #include "Components/TextBlock.h"

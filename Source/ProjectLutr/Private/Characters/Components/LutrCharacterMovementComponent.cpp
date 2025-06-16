@@ -1,7 +1,7 @@
 // Copyright 2020 Dan Kestranek.
 
 
-#include "Characters/LutrCharacterMovementComponent.h"
+#include "Characters/Components/LutrCharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
 #include "Characters/LutrCharacterBase.h"
 #include "GameplayTagContainer.h"

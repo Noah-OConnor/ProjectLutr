@@ -3,8 +3,9 @@
 
 #include "Player/LutrPlayerController.h"
 #include "AbilitySystemComponent.h"
-#include "InventoryComponent.h"
-#include "InventoryWidget.h"
+#include "Characters/Components/LutrCharacterMovementComponent.h"
+#include "Characters/Components/InventoryComponent.h"
+#include "UI/Inventory/InventoryWidget.h"
 #include "Characters/Player/LutrPlayerCharacter.h"
 #include "Player/LutrPlayerState.h"
 #include "UI/LutrDamageTextWidgetComponent.h"
@@ -28,8 +29,18 @@ void ALutrPlayerController::SetupInputComponent()
 
 	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		Input->BindAction(OpenInventoryAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleOpenInventory);
+		Input->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALutrPlayerController::HandleMove);
+		Input->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALutrPlayerController::HandleLook);
+		
+		Input->BindAction(SprintAction, ETriggerEvent::Started, this, &ALutrPlayerController::StartSprinting);
+		Input->BindAction(SprintAction, ETriggerEvent::Completed, this, &ALutrPlayerController::StopSprinting);
+
+		Input->BindAction(ADSAction, ETriggerEvent::Started, this, &ALutrPlayerController::StartADS);
+		Input->BindAction(ADSAction, ETriggerEvent::Completed, this, &ALutrPlayerController::StopADS);
+		
+		//Input->BindAction(OpenInventoryAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleOpenInventory);
 	}
+	BindASCInput();
 }
 
 void ALutrPlayerController::CreateHUD()
@@ -116,6 +127,35 @@ bool ALutrPlayerController::SetRespawnCountdown_Validate(float RespawnTimeRemain
 	return true;
 }
 
+void ALutrPlayerController::HandleMove(const FInputActionValue& Value)
+{
+	FVector2D MovementVector = Value.Get<FVector2D>();
+
+	if (APawn* ControlledPawn = GetPawn())
+	{
+		FRotator ControlRot = GetControlRotation();
+		FRotator YawRotation(0.f, ControlRot.Yaw, 0.f);
+
+		FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+		ControlledPawn->AddMovementInput(ForwardDirection, MovementVector.Y);
+		ControlledPawn->AddMovementInput(RightDirection, MovementVector.X);
+	}
+}
+
+void ALutrPlayerController::HandleLook(const FInputActionValue& Value)
+{
+	FVector2D LookAxisVector = Value.Get<FVector2D>();
+	AddYawInput(LookAxisVector.X);
+	AddPitchInput(LookAxisVector.Y);
+}
+
+void ALutrPlayerController::HandleJump()
+{
+}
+
+
 void ALutrPlayerController::HandleOpenInventory(const FInputActionValue& ActionValue)
 {
 	if (!InventoryWidget && InventoryWidgetClass)
@@ -157,6 +197,51 @@ void ALutrPlayerController::HandleOpenInventory(const FInputActionValue& ActionV
 	}
 }
 
+void ALutrPlayerController::StartSprinting()
+{
+	if (ALutrPlayerCharacter* LutrCharacter = Cast<ALutrPlayerCharacter>(GetPawn()))
+	{
+		if (ULutrCharacterMovementComponent* MoveComp = Cast<ULutrCharacterMovementComponent>(LutrCharacter->GetCharacterMovement()))
+		{
+			MoveComp->StartSprinting();
+		}
+	}
+}
+
+void ALutrPlayerController::StopSprinting()
+{
+	if (ALutrPlayerCharacter* LutrCharacter = Cast<ALutrPlayerCharacter>(GetPawn()))
+	{
+		if (ULutrCharacterMovementComponent* MoveComp = Cast<ULutrCharacterMovementComponent>(LutrCharacter->GetCharacterMovement()))
+		{
+			MoveComp->StopSprinting();
+		}
+	}
+}
+
+void ALutrPlayerController::StartADS()
+{
+	if (ALutrPlayerCharacter* LutrCharacter = Cast<ALutrPlayerCharacter>(GetPawn()))
+	{
+		if (ULutrCharacterMovementComponent* MoveComp = Cast<ULutrCharacterMovementComponent>(LutrCharacter->GetCharacterMovement()))
+		{
+			MoveComp->StartAimDownSights();
+		}
+	}
+}
+
+void ALutrPlayerController::StopADS()
+{
+	if (ALutrPlayerCharacter* LutrCharacter = Cast<ALutrPlayerCharacter>(GetPawn()))
+	{
+		if (ULutrCharacterMovementComponent* MoveComp = Cast<ULutrCharacterMovementComponent>(LutrCharacter->GetCharacterMovement()))
+		{
+			MoveComp->StopAimDownSights();
+		}
+	}
+}
+
+
 // Server only
 void ALutrPlayerController::OnPossess(APawn* InPawn)
 {
@@ -176,4 +261,31 @@ void ALutrPlayerController::OnRep_PlayerState()
 
 	// For edge cases where the PlayerState is repped before the Hero is possessed.
 	CreateHUD();
+
+	BindASCInput();
+}
+
+void ALutrPlayerController::BindASCInput()
+{
+	if (bASCInputBound)
+		return;
+
+	ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>();
+	if (!PS)
+		return;
+
+	UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+	if (!ASC || !InputComponent)
+		return;
+
+	FTopLevelAssetPath EnumPath = FTopLevelAssetPath(TEXT("/Script/ProjectLutr"), TEXT("EAbilityInputID"));
+
+	ASC->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(
+		TEXT("ConfirmTarget"), TEXT("CancelTarget"),
+		EnumPath,
+		static_cast<int32>(EAbilityInputID::Confirm),
+		static_cast<int32>(EAbilityInputID::Cancel)
+	));
+
+	bASCInputBound = true;
 }

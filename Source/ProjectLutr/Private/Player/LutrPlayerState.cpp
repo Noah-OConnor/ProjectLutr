@@ -4,10 +4,14 @@
 #include "Player/LutrPlayerState.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
+#include "Characters/Components/InventoryComponent.h"
 #include "Characters/Player/LutrPlayerCharacter.h"
+#include "Net/UnrealNetwork.h"
 #include "Player/LutrPlayerController.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
 #include "UI/LutrHUDWidget.h"
+#include "Weapon/WeaponDataAsset.h"
+#include "Weapon/WeaponInstance.h"
 
 ALutrPlayerState::ALutrPlayerState()
 {
@@ -23,6 +27,11 @@ ALutrPlayerState::ALutrPlayerState()
 	// Adding it as a subobject of the owning actor of an AbilitySystemComponent
 	// automatically registers the AttributeSet with the AbilitySystemComponent
 	AttributeSetBase = CreateDefaultSubobject<ULutrAttributeSetBase>(TEXT("AttributeSetBase"));
+
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	InventoryComponent->SetIsReplicated(true);
+
+	bReplicateUsingRegisteredSubObjectList = true;
 
 	// Set PlayerState's NetUpdateFrequency to the same as the Character.
 	// Default is very low for PlayerStates and introduces perceived lag in the ability system.
@@ -58,6 +67,18 @@ void ALutrPlayerState::ShowAbilityConfirmCancelText(bool ShowText)
 		{
 			HUD->ShowAbilityConfirmCancelText(ShowText);
 		}
+	}
+}
+
+void ALutrPlayerState::Client_NotifyStarterWeaponEquipped_Implementation(UWeaponDataAsset* WeaponData)
+{
+	if (InventoryComponent && WeaponData)
+	{
+		UWeaponInstance* Weapon = NewObject<UWeaponInstance>(this);
+		Weapon->WeaponData = WeaponData;
+		InventoryComponent->AddWeapon(Weapon);
+
+		UE_LOG(LogTemp, Error, TEXT("Client manually added weapon: %s"), *WeaponData->GetName());
 	}
 }
 
@@ -176,6 +197,50 @@ void ALutrPlayerState::BeginPlay()
 		// Tag change callbacks
 		AbilitySystemComponent->RegisterGameplayTagEvent(FGameplayTag::RequestGameplayTag(FName("State.Debuff.Stun")), EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ALutrPlayerState::StunTagChanged);
 	}
+	
+	if (HasAuthority() && InventoryComponent)
+	{
+		AddReplicatedSubObject(InventoryComponent);
+	}
+
+	if (InventoryComponent)
+	{
+		UE_LOG(LogTemp, Error, TEXT("HAS INVENTORY COMPONENT"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("NO INV COMPONENT"));
+	}
+
+	if (HasAuthority() && InventoryComponent)
+	{
+		UWeaponDataAsset* StarterWeaponData = Cast<UWeaponDataAsset>(StaticLoadObject(
+			UWeaponDataAsset::StaticClass(),
+			nullptr,
+			TEXT("/Game/ProjectLutr/Data/DA_AssaultRifle.DA_AssaultRifle")));
+
+		if (StarterWeaponData)
+		{
+			UWeaponInstance* StarterWeapon = NewObject<UWeaponInstance>(this);
+			StarterWeapon->WeaponData = StarterWeaponData;
+			UE_LOG(LogTemp, Error, TEXT("FOUND STARTER WEAPON AT PATH"));
+
+			InventoryComponent->AddWeapon(StarterWeapon);
+			Client_NotifyStarterWeaponEquipped(StarterWeaponData);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("FAILED TO LOAD STARTER WEAPON"));
+		}
+
+	}
+}
+
+void ALutrPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME(ALutrPlayerState, InventoryComponent);
 }
 
 void ALutrPlayerState::HealthChanged(const FOnAttributeChangeData & Data)

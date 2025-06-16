@@ -9,7 +9,7 @@
 #include "ProjectLutr/ProjectLutr.h"
 #include "LutrCharacterBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterBaseHitReactDelegate, EGDHitReactDirection, Direction);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterBaseHitReactDelegate, EHitReactDirection, Direction);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDiedDelegate, ALutrCharacterBase*, Character);
 
 /**
@@ -40,13 +40,13 @@ public:
 
 	// Switch on AbilityID to return individual ability levels. Hardcoded to 1 for every ability in this project.
 	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|LutrCharacter")
-	virtual int32 GetAbilityLevel(EGDAbilityInputID AbilityID) const;
+	virtual int32 GetAbilityLevel(EAbilityInputID AbilityID) const;
 
 	// Removes all CharacterAbilities. Can only be called by the Server. Removing on the Server will remove from Client too.
 	virtual void RemoveCharacterAbilities();
 
 	UFUNCTION(BlueprintCallable)
-	EGDHitReactDirection GetHitReactDirection(const FVector& ImpactPoint);
+	EHitReactDirection GetHitReactDirection(const FVector& ImpactPoint);
 
 	UFUNCTION(NetMulticast, Reliable, WithValidation)
 	virtual void PlayHitReact(FGameplayTag HitDirection, AActor* DamageCauser);

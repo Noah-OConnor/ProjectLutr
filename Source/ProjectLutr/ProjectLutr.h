@@ -9,7 +9,7 @@
 #define GET_ACTOR_ROLE_FSTRING(Actor) *(FindObject<UEnum>(nullptr, TEXT("/Script/Engine.ENetRole"), true)->GetNameStringByValue(Actor->GetLocalRole()))
 
 UENUM(BlueprintType)
-enum class EGDHitReactDirection : uint8
+enum class EHitReactDirection : uint8
 {
 	// 0
 	None			UMETA(DisplayName = "None"),
@@ -24,7 +24,7 @@ enum class EGDHitReactDirection : uint8
 };
 
 UENUM(BlueprintType)
-enum class EGDAbilityInputID : uint8
+enum class EAbilityInputID : uint8
 {
 	// 0 None
 	None			UMETA(DisplayName = "None"),

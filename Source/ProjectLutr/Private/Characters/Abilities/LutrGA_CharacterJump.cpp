@@ -7,7 +7,7 @@
 
 ULutrGA_CharacterJump::ULutrGA_CharacterJump()
 {
-	AbilityInputID = EGDAbilityInputID::Jump;
+	AbilityInputID = EAbilityInputID::Jump;
 	InstancingPolicy = EGameplayAbilityInstancingPolicy::NonInstanced;
 	AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Jump")));
 

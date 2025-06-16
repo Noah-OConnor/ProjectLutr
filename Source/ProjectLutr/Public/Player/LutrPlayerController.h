@@ -43,12 +43,41 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputMappingContext* PlayerMappingContext;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* MoveAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
-	UInputAction* OpenInventoryAction;
+	UInputAction* LookAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* JumpAction;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* SprintAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* ADSAction;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* OpenInventoryAction;
+	
+	UFUNCTION()
+	void HandleMove(const FInputActionValue& Value);
+	UFUNCTION()
+	void HandleLook(const FInputActionValue& Value);
+	UFUNCTION()
+	void HandleJump();
 	UFUNCTION()
 	void HandleOpenInventory(const FInputActionValue& ActionValue);
+	UFUNCTION()
+	void StartSprinting();
+	UFUNCTION()
+	void StopSprinting();
+	UFUNCTION()
+	void StartADS();
+	UFUNCTION()
+	void StopADS();
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectLutr|UI")
 	TSubclassOf<class ULutrHUDWidget> UIHUDWidgetClass;
@@ -60,6 +89,13 @@ protected:
 	virtual void OnPossess(APawn* InPawn) override;
 
 	virtual void OnRep_PlayerState() override;
+
+	bool bASCInputBound = false;
+	
+	// Called from both SetupPlayerInputComponent and OnRep_PlayerState because of a potential race condition where the PlayerController might
+	// call ClientRestart which calls SetupPlayerInputComponent before the PlayerState is repped to the client so the PlayerState would be null in SetupPlayerInputComponent.
+	// Conversely, the PlayerState might be repped before the PlayerController calls ClientRestart so the Actor's InputComponent would be null in OnRep_PlayerState.
+	void BindASCInput();
 
 private:
 	UPROPERTY()

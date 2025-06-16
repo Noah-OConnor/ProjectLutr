@@ -5,7 +5,7 @@
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
 #include "Characters/Abilities/LutrGameplayAbility.h"
-#include "Characters/LutrCharacterMovementComponent.h"
+#include "Characters/Components/LutrCharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "UI/LutrDamageTextWidgetComponent.h"
 
@@ -39,7 +39,7 @@ bool ALutrCharacterBase::IsAlive() const
 	return GetHealth() > 0.0f;
 }
 
-int32 ALutrCharacterBase::GetAbilityLevel(EGDAbilityInputID AbilityID) const
+int32 ALutrCharacterBase::GetAbilityLevel(EAbilityInputID AbilityID) const
 {
 	return 1;
 }
@@ -70,7 +70,7 @@ void ALutrCharacterBase::RemoveCharacterAbilities()
 	AbilitySystemComponent->bCharacterAbilitiesGiven = false;
 }
 
-EGDHitReactDirection ALutrCharacterBase::GetHitReactDirection(const FVector & ImpactPoint)
+EHitReactDirection ALutrCharacterBase::GetHitReactDirection(const FVector & ImpactPoint)
 {
 	const FVector& ActorLocation = GetActorLocation();
 	// PointPlaneDist is super cheap - 1 vector subtraction, 1 dot product.
@@ -85,11 +85,11 @@ EGDHitReactDirection ALutrCharacterBase::GetHitReactDirection(const FVector & Im
 		// Can see if it's left or right of Left/Right plane which would determine Front or Back
 		if (DistanceToRightLeftPlane >= 0)
 		{
-			return EGDHitReactDirection::Front;
+			return EHitReactDirection::Front;
 		}
 		else
 		{
-			return EGDHitReactDirection::Back;
+			return EHitReactDirection::Back;
 		}
 	}
 	else
@@ -98,11 +98,11 @@ EGDHitReactDirection ALutrCharacterBase::GetHitReactDirection(const FVector & Im
 
 		if (DistanceToFrontBackPlane >= 0)
 		{
-			return EGDHitReactDirection::Right;
+			return EHitReactDirection::Right;
 		}
 		else
 		{
-			return EGDHitReactDirection::Left;
+			return EHitReactDirection::Left;
 		}
 	}
 
@@ -115,19 +115,19 @@ void ALutrCharacterBase::PlayHitReact_Implementation(FGameplayTag HitDirection, 
 	{
 		if (HitDirection == HitDirectionLeftTag)
 		{
-			ShowHitReact.Broadcast(EGDHitReactDirection::Left);
+			ShowHitReact.Broadcast(EHitReactDirection::Left);
 		}
 		else if (HitDirection == HitDirectionFrontTag)
 		{
-			ShowHitReact.Broadcast(EGDHitReactDirection::Front);
+			ShowHitReact.Broadcast(EHitReactDirection::Front);
 		}
 		else if (HitDirection == HitDirectionRightTag)
 		{
-			ShowHitReact.Broadcast(EGDHitReactDirection::Right);
+			ShowHitReact.Broadcast(EHitReactDirection::Right);
 		}
 		else if (HitDirection == HitDirectionBackTag)
 		{
-			ShowHitReact.Broadcast(EGDHitReactDirection::Back);
+			ShowHitReact.Broadcast(EHitReactDirection::Back);
 		}
 	}
 }

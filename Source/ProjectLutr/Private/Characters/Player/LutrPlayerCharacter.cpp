@@ -3,36 +3,26 @@
 
 #include "Characters/Player/LutrPlayerCharacter.h"
 
-#include "InventoryComponent.h"
+#include "Characters/Components/InventoryComponent.h"
 #include "Weapon/CraftingComponent.h"
 #include "AI/LutrAIController.h"
-#include "Camera/CameraComponent.h"
-#include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
+#include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h" // DONT REMOVE THIS IT WILL BREAK STUFF FOR SOME REASON
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "ProjectLutr/ProjectLutrGameMode.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "Player/LutrPlayerController.h"
 #include "Player/LutrPlayerState.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Weapon/WeaponDataAsset.h"
+#include "Weapon/WeaponInstance.h"
 
 ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	//InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 	CraftingComponent = CreateDefaultSubobject<UCraftingComponent>(TEXT("CraftingComponent"));
-	/*CameraBoom = CreateDefaultSubobject<USpringArmComponent>(FName("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->bUsePawnControlRotation = true;
-	CameraBoom->SetRelativeLocation(FVector(0, 0, 68.492264));*/
-
-	/*FollowCamera = CreateDefaultSubobject<UCameraComponent>(FName("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom);
-	FollowCamera->FieldOfView = 80.0f;*/
 
 	//GunComponent = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Gun"));
 
@@ -66,16 +56,8 @@ void ALutrPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &ALutrPlayerCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ALutrPlayerCharacter::MoveRight);
-
-	PlayerInputComponent->BindAxis("LookUp", this, &ALutrPlayerCharacter::LookUp);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &ALutrPlayerCharacter::LookUpRate);
-	PlayerInputComponent->BindAxis("Turn", this, &ALutrPlayerCharacter::Turn);
-	PlayerInputComponent->BindAxis("TurnRate", this, &ALutrPlayerCharacter::TurnRate);
-
 	// Bind player input to the AbilitySystemComponent. Also called in OnRep_PlayerState because of a potential race condition.
-	BindASCInput();
+	//BindASCInput();
 }
 
 // Server only
@@ -127,26 +109,6 @@ void ALutrPlayerCharacter::PossessedBy(AController * NewController)
 	}
 }
 
-//USpringArmComponent * AGDHeroCharacter::GetCameraBoom()
-//{
-//	return CameraBoom;
-//}
-//
-//UCameraComponent * AGDHeroCharacter::GetFollowCamera()
-//{
-//	return FollowCamera;
-//}
-//
-//float AGDHeroCharacter::GetStartingCameraBoomArmLength()
-//{
-//	return StartingCameraBoomArmLength;
-//}
-//
-//FVector AGDHeroCharacter::GetStartingCameraBoomLocation()
-//{
-//	return StartingCameraBoomLocation;
-//}
-
 ULutrFloatingStatusBarWidget * ALutrPlayerCharacter::GetFloatingStatusBar()
 {
 	return UIFloatingStatusBar;
@@ -185,9 +147,6 @@ void ALutrPlayerCharacter::BeginPlay()
 	// On respawn, they are set up in PossessedBy.
 	// When the player a client, the floating status bars are all set up in OnRep_PlayerState.
 	InitializeFloatingStatusBar();
-
-	/*StartingCameraBoomArmLength = CameraBoom->TargetArmLength;
-	StartingCameraBoomLocation = CameraBoom->GetRelativeLocation();*/
 }
 
 void ALutrPlayerCharacter::PostInitializeComponents()
@@ -198,48 +157,6 @@ void ALutrPlayerCharacter::PostInitializeComponents()
 	//{
 		//GunComponent->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GunSocket"));
 	//}
-}
-
-void ALutrPlayerCharacter::LookUp(float Value)
-{
-	if (IsAlive())
-	{
-		AddControllerPitchInput(Value);
-	}
-}
-
-void ALutrPlayerCharacter::LookUpRate(float Value)
-{
-	if (IsAlive())
-	{
-		AddControllerPitchInput(Value * BaseLookUpRate * GetWorld()->DeltaTimeSeconds);
-	}
-}
-
-void ALutrPlayerCharacter::Turn(float Value)
-{
-	if (IsAlive())
-	{
-		AddControllerYawInput(Value);
-	}
-}
-
-void ALutrPlayerCharacter::TurnRate(float Value)
-{
-	if (IsAlive())
-	{
-		AddControllerYawInput(Value * BaseTurnRate * GetWorld()->DeltaTimeSeconds);
-	}
-}
-
-void ALutrPlayerCharacter::MoveForward(float Value)
-{
-	AddMovementInput(UKismetMathLibrary::GetForwardVector(FRotator(0, GetControlRotation().Yaw, 0)), Value);
-}
-
-void ALutrPlayerCharacter::MoveRight(float Value)
-{
-	AddMovementInput(UKismetMathLibrary::GetRightVector(FRotator(0, GetControlRotation().Yaw, 0)), Value);
 }
 
 void ALutrPlayerCharacter::InitializeFloatingStatusBar()
@@ -284,7 +201,7 @@ void ALutrPlayerCharacter::OnRep_PlayerState()
 		AbilitySystemComponent->InitAbilityActorInfo(PS, this);
 
 		// Bind player input to the AbilitySystemComponent. Also called in SetupPlayerInputComponent because of a potential race condition.
-		BindASCInput();
+		//BindASCInput();
 
 		// Set the AttributeSetBase for convenience attribute functions
 		AttributeSetBase = PS->GetAttributeSetBase();
@@ -312,17 +229,37 @@ void ALutrPlayerCharacter::OnRep_PlayerState()
 		SetHealth(GetMaxHealth());
 		SetMana(GetMaxMana());
 		SetStamina(GetMaxStamina());
+		
+		UE_LOG(LogTemp, Error, TEXT("OnRepPlayerState"));
+
+			if (UInventoryComponent* Inventory = PS->InventoryComponent)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Inventory Component"));
+
+				UWeaponInstance* FirstWeapon = Inventory->GetWeaponAt(0);
+				if (FirstWeapon)
+				{
+					UE_LOG(LogTemp, Error, TEXT("Client Equipped: %s, Damage: %.1f"),
+						*FirstWeapon->WeaponData->GetName(),
+						FirstWeapon->GetDamage());
+				}
+				else
+				{
+					UE_LOG(LogTemp, Error, TEXT("NO FIRST WEAPON"));
+				}
+			}
+		
 	}
 }
 
-void ALutrPlayerCharacter::BindASCInput()
-{
-	if (!ASCInputBound && AbilitySystemComponent.IsValid() && IsValid(InputComponent))
-	{
-		FTopLevelAssetPath AbilityEnumAssetPath = FTopLevelAssetPath(FName("/Script/ProjectLutr"), FName("EGDAbilityInputID"));
-		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
-			FString("CancelTarget"), AbilityEnumAssetPath, static_cast<int32>(EGDAbilityInputID::Confirm), static_cast<int32>(EGDAbilityInputID::Cancel)));
-
-		ASCInputBound = true;
-	}
-}
+// void ALutrPlayerCharacter::BindASCInput()
+// {
+// 	if (!ASCInputBound && AbilitySystemComponent.IsValid() && IsValid(InputComponent))
+// 	{
+// 		FTopLevelAssetPath AbilityEnumAssetPath = FTopLevelAssetPath(FName("/Script/ProjectLutr"), FName("EGDAbilityInputID"));
+// 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
+// 			FString("CancelTarget"), AbilityEnumAssetPath, static_cast<int32>(EGDAbilityInputID::Confirm), static_cast<int32>(EGDAbilityInputID::Cancel)));
+//
+// 		ASCInputBound = true;
+// 	}
+// }

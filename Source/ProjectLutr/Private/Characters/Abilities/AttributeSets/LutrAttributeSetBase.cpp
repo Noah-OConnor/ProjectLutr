@@ -143,19 +143,19 @@ void ULutrAttributeSetBase::PostGameplayEffectExecute(const FGameplayEffectModCa
 
 				if (Hit)
 				{
-					EGDHitReactDirection HitDirection = TargetCharacter->GetHitReactDirection(Data.EffectSpec.GetContext().GetHitResult()->Location);
+					EHitReactDirection HitDirection = TargetCharacter->GetHitReactDirection(Data.EffectSpec.GetContext().GetHitResult()->Location);
 					switch (HitDirection)
 					{
-					case EGDHitReactDirection::Left:
+					case EHitReactDirection::Left:
 						TargetCharacter->PlayHitReact(HitDirectionLeftTag, SourceCharacter);
 						break;
-					case EGDHitReactDirection::Front:
+					case EHitReactDirection::Front:
 						TargetCharacter->PlayHitReact(HitDirectionFrontTag, SourceCharacter);
 						break;
-					case EGDHitReactDirection::Right:
+					case EHitReactDirection::Right:
 						TargetCharacter->PlayHitReact(HitDirectionRightTag, SourceCharacter);
 						break;
-					case EGDHitReactDirection::Back:
+					case EHitReactDirection::Back:
 						TargetCharacter->PlayHitReact(HitDirectionBackTag, SourceCharacter);
 						break;
 					}
