@@ -1,4 +1,4 @@
-// Copyright 2020 Dan Kestranek.
+// Copyright 2025 Project Lutr
 
 #pragma once
 
@@ -6,6 +6,8 @@
 #include "Blueprint/UserWidget.h"
 #include "LutrFloatingStatusBarWidget.generated.h"
 
+class UProgressBar;
+class UTextBlock;
 /**
  * 
  */
@@ -15,12 +17,18 @@ class PROJECTLUTR_API ULutrFloatingStatusBarWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetHealthPercentage(float HealthPercentage);
+	/** Updates the health bar percent (0-1) */
+	UFUNCTION(BlueprintCallable, Category = "StatusBar")
+	void SetHealthPercentage(float HealthPercent);
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void SetManaPercentage(float ManaPercentage);
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	/** Sets the character's name in the widget */
+	UFUNCTION(BlueprintCallable, Category = "StatusBar")
 	void SetCharacterName(const FText& NewName);
+
+protected:
+	UPROPERTY(meta = (BindWidget))
+	UProgressBar* HealthBar;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* NameText;
 };

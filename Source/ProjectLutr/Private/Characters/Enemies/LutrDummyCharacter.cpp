@@ -1,7 +1,7 @@
 // Copyright 2020 Dan Kestranek.
 
 
-#include "Characters/Minions/LutrMinionCharacter.h"
+#include "Characters/Enemies/LutrDummyCharacter.h"
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h"
 #include "Components/CapsuleComponent.h"
@@ -9,7 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
 
-ALutrMinionCharacter::ALutrMinionCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+ALutrDummyCharacter::ALutrDummyCharacter(const class FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	// Create ability system component, and set it to be explicitly replicated
 	HardRefAbilitySystemComponent = CreateDefaultSubobject<ULutrAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
@@ -31,11 +31,13 @@ ALutrMinionCharacter::ALutrMinionCharacter(const class FObjectInitializer& Objec
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
-	UIFloatingStatusBarComponent = CreateDefaultSubobject<UWidgetComponent>(FName("UIFloatingStatusBarComponent"));
+	UIFloatingStatusBarComponent = CreateDefaultSubobject<UWidgetComponent>(FName("StatusBarComponent"));
 	UIFloatingStatusBarComponent->SetupAttachment(RootComponent);
 	UIFloatingStatusBarComponent->SetRelativeLocation(FVector(0, 0, 120));
-	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::World);
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(500, 500));
+	UIFloatingStatusBarComponent->SetDrawAtDesiredSize(true);
+	UIFloatingStatusBarComponent->SetVisibility(true);
 
 	/*UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Minion.UI_FloatingStatusBar_Minion_C"));
 	if (!UIFloatingStatusBarClass)
@@ -44,7 +46,7 @@ ALutrMinionCharacter::ALutrMinionCharacter(const class FObjectInitializer& Objec
 	}*/
 }
 
-void ALutrMinionCharacter::BeginPlay()
+void ALutrDummyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -65,6 +67,7 @@ void ALutrMinionCharacter::BeginPlay()
 				if (UIFloatingStatusBar && UIFloatingStatusBarComponent)
 				{
 					UIFloatingStatusBarComponent->SetWidget(UIFloatingStatusBar);
+					UIFloatingStatusBarComponent->SetRelativeLocation(FVector(0, 0, 120));
 
 					// Setup the floating status bar
 					UIFloatingStatusBar->SetHealthPercentage(GetHealth() / GetMaxHealth());
@@ -75,14 +78,14 @@ void ALutrMinionCharacter::BeginPlay()
 		}
 
 		// Attribute change callbacks
-		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthAttribute()).AddUObject(this, &ALutrMinionCharacter::HealthChanged);
+		HealthChangedDelegateHandle = AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSetBase->GetHealthAttribute()).AddUObject(this, &ALutrDummyCharacter::HealthChanged);
 
 		// Tag change callbacks
-		AbilitySystemComponent->RegisterGameplayTagEvent(FGameplayTag::RequestGameplayTag(FName("State.Debuff.Stun")), EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ALutrMinionCharacter::StunTagChanged);
+		AbilitySystemComponent->RegisterGameplayTagEvent(FGameplayTag::RequestGameplayTag(FName("State.Debuff.Stun")), EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ALutrDummyCharacter::StunTagChanged);
 	}
 }
 
-void ALutrMinionCharacter::HealthChanged(const FOnAttributeChangeData & Data)
+void ALutrDummyCharacter::HealthChanged(const FOnAttributeChangeData & Data)
 {
 	float Health = Data.NewValue;
 
@@ -99,7 +102,7 @@ void ALutrMinionCharacter::HealthChanged(const FOnAttributeChangeData & Data)
 	}
 }
 
-void ALutrMinionCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+void ALutrDummyCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	if (NewCount > 0)
 	{

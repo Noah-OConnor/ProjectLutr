@@ -280,7 +280,7 @@ void ALutrPlayerState::ManaChanged(const FOnAttributeChangeData & Data)
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();
 		if (HeroFloatingStatusBar)
 		{
-			HeroFloatingStatusBar->SetManaPercentage(Mana / GetMaxMana());
+			//HeroFloatingStatusBar->SetManaPercentage(Mana / GetMaxMana());
 		}
 	}
 
@@ -299,7 +299,7 @@ void ALutrPlayerState::MaxManaChanged(const FOnAttributeChangeData & Data)
 		ULutrFloatingStatusBarWidget* HeroFloatingStatusBar = Hero->GetFloatingStatusBar();
 		if (HeroFloatingStatusBar)
 		{
-			HeroFloatingStatusBar->SetManaPercentage(GetMana() / MaxMana);
+			//HeroFloatingStatusBar->SetManaPercentage(GetMana() / MaxMana);
 		}
 	}
 

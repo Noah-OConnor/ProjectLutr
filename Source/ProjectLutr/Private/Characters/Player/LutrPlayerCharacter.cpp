@@ -6,12 +6,14 @@
 #include "Characters/Components/InventoryComponent.h"
 #include "Weapon/CraftingComponent.h"
 #include "AI/LutrAIController.h"
+#include "Camera/CameraComponent.h"
 #include "Characters/Abilities/AttributeSets/LutrAttributeSetBase.h" // DONT REMOVE THIS IT WILL BREAK STUFF FOR SOME REASON
 #include "Characters/Abilities/LutrAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "ProjectLutr/ProjectLutrGameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "Net/UnrealNetwork.h"
 #include "Player/LutrPlayerController.h"
 #include "Player/LutrPlayerState.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
@@ -38,9 +40,13 @@ ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& Objec
 	UIFloatingStatusBarComponent->SetRelativeLocation(FVector(0, 0, 120));
 	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(500, 500));
+	
+	PlayerCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("PlayerCamera"));
+	PlayerCameraComponent->SetupAttachment(GetRootComponent());
+	PlayerCameraComponent->bUsePawnControlRotation = true;
 
 	FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
-	FirstPersonMesh->SetupAttachment(RootComponent);
+	FirstPersonMesh->SetupAttachment(PlayerCameraComponent);
 	//FirstPersonMesh->SetOnlyOwnerSee(true);
 	FirstPersonMesh->bCastDynamicShadow = false;
 	FirstPersonMesh->CastShadow = false;
@@ -117,21 +123,16 @@ void ALutrPlayerCharacter::PossessedBy(AController * NewController)
 
 		if (IsValid(PS->InventoryComponent))
 		{
-			UWeaponDataAsset* StarterWeaponData = Cast<UWeaponDataAsset>(StaticLoadObject(
-				UWeaponDataAsset::StaticClass(),
-				nullptr,
-				TEXT("/Game/ProjectLutr/Data/DA_AssaultRifle.DA_AssaultRifle")));
-
-			if (StarterWeaponData)
+			if (StarterWeaponAsset)
 			{
 				UWeaponInstance* StarterWeapon = NewObject<UWeaponInstance>(this);
-				StarterWeapon->WeaponData = StarterWeaponData;
+				StarterWeapon->WeaponData = StarterWeaponAsset;
 
 				PS->InventoryComponent->AddWeapon(StarterWeapon);
 
 				UE_LOG(LogTemp, Warning, TEXT("Server: Starter weapon added to %s inventory: %s"),
 					*GetNameSafe(PS),
-					*StarterWeaponData->GetName());
+					*StarterWeaponAsset->GetName());
 			}
 		}
 	}
@@ -208,7 +209,7 @@ void ALutrPlayerCharacter::InitializeFloatingStatusBar()
 
 				// Setup the floating status bar
 				UIFloatingStatusBar->SetHealthPercentage(GetHealth() / GetMaxHealth());
-				UIFloatingStatusBar->SetManaPercentage(GetMana() / GetMaxMana());
+				//UIFloatingStatusBar->SetManaPercentage(GetMana() / GetMaxMana());
 			}
 		}
 	}

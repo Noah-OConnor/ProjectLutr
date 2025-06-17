@@ -8,6 +8,8 @@
 #include "GameFramework/Character.h"
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "Camera/CameraComponent.h"
 
 ULutrGA_FireWeapon::ULutrGA_FireWeapon()
 {
@@ -23,7 +25,7 @@ void ULutrGA_FireWeapon::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	UE_LOG(LogTemp, Display, TEXT("ULutrGA_Fire::ActivateAbility"));
+	//UE_LOG(LogTemp, Display, TEXT("ULutrGA_Fire::ActivateAbility"));
 
 	// Begin looped fire
 	PerformFire();
@@ -66,9 +68,6 @@ void ULutrGA_FireWeapon::EndAbility(const FGameplayAbilitySpecHandle Handle,
 
 void ULutrGA_FireWeapon::PerformFire()
 {
-	// 🔫 This is where the actual firing logic goes:
-	// LineTrace, spawn projectile, apply damage, etc.
-
 	AActor* Avatar = GetAvatarActorFromActorInfo();
 	if (!Avatar)
 		return;
@@ -76,7 +75,62 @@ void ULutrGA_FireWeapon::PerformFire()
 	FVector Location = Avatar->GetActorLocation();
 	FRotator Rotation = Avatar->GetActorRotation();
 
-	UE_LOG(LogTemp, Log, TEXT("[FIRE] Actor %s fired weapon at %s"), *Avatar->GetName(), *Location.ToString());
+	//UE_LOG(LogTemp, Log, TEXT("[FIRE] Actor %s fired weapon at %s"), *Avatar->GetName(), *Location.ToString());
 
-	// TODO: Add actual fire logic (hit scan or projectile, depending on weapon type)
+	if (!Avatar->HasAuthority()) return;
+	ACharacter* Character = Cast<ACharacter>(Avatar);
+	if (!Character) return;
+
+	UCameraComponent* Camera = Character->FindComponentByClass<UCameraComponent>();
+	if (!Camera) return;
+
+	FVector Start = Camera->GetComponentLocation();
+	
+	const FGameplayAbilityActorInfo* ActorInfo = GetCurrentActorInfo();
+	FRotator AimRotation;
+	if (ActorInfo->PlayerController.IsValid())
+	{
+		AimRotation = ActorInfo->PlayerController->GetControlRotation();
+	}
+	else
+	{
+		AimRotation = Camera->GetComponentRotation(); // fallback
+	}
+
+	FVector End = Start + (AimRotation.Vector() * 10000.f);
+
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(Avatar);
+	
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.0f, 0, 1.0f);
+	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
+	{
+		AActor* HitActor = Hit.GetActor();
+		if (!HitActor) return;
+
+		UE_LOG(LogTemp, Display, TEXT("[FIRE] Actor %s hit"), *HitActor->GetName());
+		
+		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(HitActor);
+		UAbilitySystemComponent* SourceASC = GetAbilitySystemComponentFromActorInfo();
+
+		if (TargetASC && SourceASC && DamageEffect)
+		{
+			// Create effect context
+			FGameplayEffectContextHandle EffectContext = SourceASC->MakeEffectContext();
+			EffectContext.AddSourceObject(this);
+
+			// Create GE spec
+			FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffect, 1.f, EffectContext);
+
+			if (SpecHandle.IsValid())
+			{
+				// Optional: send dynamic damage via SetByCaller
+				float DamageAmount = 20.f;
+				SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Damage")), DamageAmount);
+
+				SourceASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data, TargetASC);
+			}
+		}
+	}
 }

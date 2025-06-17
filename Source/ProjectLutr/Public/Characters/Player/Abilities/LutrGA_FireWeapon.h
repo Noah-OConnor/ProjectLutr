@@ -31,8 +31,11 @@ public:
 		const FGameplayAbilityActivationInfo ActivationInfo,
 		bool bReplicateEndAbility, bool bWasCancelled) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Weapon")
+	TSubclassOf<UGameplayEffect> DamageEffect;
+
 protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Weapon")
 	float FireRate = 0.15f;
 
 	FTimerHandle FireLoopTimerHandle;

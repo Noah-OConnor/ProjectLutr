@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "Characters/LutrCharacterBase.h"
 #include "GameplayEffectTypes.h"
-#include "LutrMinionCharacter.generated.h"
+#include "LutrDummyCharacter.generated.h"
 
 /**
  * An AI controlled minion character.
  */
 UCLASS()
-class PROJECTLUTR_API ALutrMinionCharacter : public ALutrCharacterBase
+class PROJECTLUTR_API ALutrDummyCharacter : public ALutrCharacterBase
 {
 	GENERATED_BODY()
 
 public:
-	ALutrMinionCharacter(const class FObjectInitializer& ObjectInitializer);
+	ALutrDummyCharacter(const class FObjectInitializer& ObjectInitializer);
 
 protected:
 

@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Characters/LutrCharacterBase.h"
-#include "Net/UnrealNetwork.h"
 #include "LutrPlayerCharacter.generated.h"
 
+class UWeaponDataAsset;
 class AWeaponActor;
-//class UInventoryComponent;
 class UCraftingComponent;
 /**
  * A player or AI controlled hero character.
@@ -27,6 +26,9 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 
 	class ULutrFloatingStatusBarWidget* GetFloatingStatusBar();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Camera")
+	class UCameraComponent* PlayerCameraComponent;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ProjectLutr|Mesh")
 	USkeletalMeshComponent* FirstPersonMesh;
@@ -49,6 +51,9 @@ protected:
 	//UInventoryComponent* InventoryComponent;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
 	UCraftingComponent* CraftingComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Inventory")
+	UWeaponDataAsset* StarterWeaponAsset;
 
 	//UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	//USkeletalMeshComponent* GunComponent;
