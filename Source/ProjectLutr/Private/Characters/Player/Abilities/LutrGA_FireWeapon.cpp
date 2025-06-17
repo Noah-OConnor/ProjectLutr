@@ -103,7 +103,7 @@ void ULutrGA_FireWeapon::PerformFire()
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(Avatar);
 	
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.0f, 0, 1.0f);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.0f, 0, 1.0f);
 	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
 	{
 		AActor* HitActor = Hit.GetActor();
