@@ -49,15 +49,18 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* LookAction;
-
-	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
-	UInputAction* JumpAction;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* SprintAction;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* JumpAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* ADSAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* EquipWeaponAction;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* OpenInventoryAction;
@@ -67,17 +70,21 @@ protected:
 	UFUNCTION()
 	void HandleLook(const FInputActionValue& Value);
 	UFUNCTION()
-	void HandleJump();
-	UFUNCTION()
-	void HandleOpenInventory(const FInputActionValue& ActionValue);
-	UFUNCTION()
 	void StartSprinting();
 	UFUNCTION()
 	void StopSprinting();
 	UFUNCTION()
+	void HandleJumpPressed();
+	UFUNCTION()
+	void HandleJumpReleased();
+	UFUNCTION()
 	void StartADS();
 	UFUNCTION()
 	void StopADS();
+	UFUNCTION()
+	void HandleEquipWeaponPressed();
+	UFUNCTION()
+	void HandleOpenInventory(const FInputActionValue& ActionValue);
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "ProjectLutr|UI")
 	TSubclassOf<class ULutrHUDWidget> UIHUDWidgetClass;

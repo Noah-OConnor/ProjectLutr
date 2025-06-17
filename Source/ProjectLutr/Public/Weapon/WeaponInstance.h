@@ -7,13 +7,15 @@
 
 class UWeaponDataAsset;
 
-UCLASS(BlueprintType)
+UCLASS(BlueprintType, EditInlineNew, DefaultToInstanced)
 class PROJECTLUTR_API UWeaponInstance : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadOnly, Category = "ProjectLutr|Data")
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "ProjectLutr|Data", Replicated)
 	TObjectPtr<UWeaponDataAsset> WeaponData;
 
 	UPROPERTY(BlueprintReadOnly, Category = "ProjectLutr|Runtime")
@@ -28,5 +30,6 @@ public:
 	float GetFireRate() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Weapon")
-	UStaticMesh* GetMesh() const;
+	UStaticMesh* GetStaticMesh() const;
+	USkeletalMesh* GetSkeletalMesh() const;
 };

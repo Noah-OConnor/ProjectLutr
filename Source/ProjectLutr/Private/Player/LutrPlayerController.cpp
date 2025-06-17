@@ -35,6 +35,11 @@ void ALutrPlayerController::SetupInputComponent()
 		Input->BindAction(SprintAction, ETriggerEvent::Started, this, &ALutrPlayerController::StartSprinting);
 		Input->BindAction(SprintAction, ETriggerEvent::Completed, this, &ALutrPlayerController::StopSprinting);
 
+		Input->BindAction(JumpAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleJumpPressed);
+		Input->BindAction(JumpAction, ETriggerEvent::Completed, this, &ALutrPlayerController::HandleJumpReleased);
+
+		Input->BindAction(EquipWeaponAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleEquipWeaponPressed);
+
 		Input->BindAction(ADSAction, ETriggerEvent::Started, this, &ALutrPlayerController::StartADS);
 		Input->BindAction(ADSAction, ETriggerEvent::Completed, this, &ALutrPlayerController::StopADS);
 		
@@ -151,10 +156,6 @@ void ALutrPlayerController::HandleLook(const FInputActionValue& Value)
 	AddPitchInput(LookAxisVector.Y);
 }
 
-void ALutrPlayerController::HandleJump()
-{
-}
-
 
 void ALutrPlayerController::HandleOpenInventory(const FInputActionValue& ActionValue)
 {
@@ -219,6 +220,29 @@ void ALutrPlayerController::StopSprinting()
 	}
 }
 
+void ALutrPlayerController::HandleJumpPressed()
+{
+	if (ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>())
+	{
+		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
+		{
+			ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::Jump));
+		}
+	}
+}
+
+void ALutrPlayerController::HandleJumpReleased()
+{
+	if (ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>())
+	{
+		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
+		{
+			ASC->AbilityLocalInputReleased(static_cast<int32>(EAbilityInputID::Jump));
+		}
+	}
+}
+
+
 void ALutrPlayerController::StartADS()
 {
 	if (ALutrPlayerCharacter* LutrCharacter = Cast<ALutrPlayerCharacter>(GetPawn()))
@@ -237,6 +261,17 @@ void ALutrPlayerController::StopADS()
 		if (ULutrCharacterMovementComponent* MoveComp = Cast<ULutrCharacterMovementComponent>(LutrCharacter->GetCharacterMovement()))
 		{
 			MoveComp->StopAimDownSights();
+		}
+	}
+}
+
+void ALutrPlayerController::HandleEquipWeaponPressed()
+{
+	if (ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>())
+	{
+		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
+		{
+			ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::EquipWeapon));
 		}
 	}
 }

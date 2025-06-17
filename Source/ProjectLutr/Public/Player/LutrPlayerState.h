@@ -8,6 +8,7 @@
 #include "GameplayEffectTypes.h"
 #include "LutrPlayerState.generated.h"
 
+class UInventoryComponent;
 /**
  * 
  */
@@ -30,12 +31,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|LutrPlayerState|UI")
 	void ShowAbilityConfirmCancelText(bool ShowText);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory", Replicated)
-	TObjectPtr<class UInventoryComponent> InventoryComponent;
-
-	UFUNCTION(Client, Reliable)
-	void Client_NotifyStarterWeaponEquipped(UWeaponDataAsset* WeaponData);
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
+	UInventoryComponent* InventoryComponent;
 
 	/**
 	* Getters for attributes from GDAttributeSetBase. Returns Current Value unless otherwise specified.

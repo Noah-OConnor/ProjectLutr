@@ -16,6 +16,7 @@
 #include "Player/LutrPlayerState.h"
 #include "UI/LutrFloatingStatusBarWidget.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Weapon/WeaponActor.h"
 #include "Weapon/WeaponDataAsset.h"
 #include "Weapon/WeaponInstance.h"
 
@@ -23,8 +24,6 @@ ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& Objec
 {
 	//InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 	CraftingComponent = CreateDefaultSubobject<UCraftingComponent>(TEXT("CraftingComponent"));
-
-	//GunComponent = CreateDefaultSubobject<USkeletalMeshComponent>(FName("Gun"));
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore); 
 
@@ -40,24 +39,33 @@ ALutrPlayerCharacter::ALutrPlayerCharacter(const class FObjectInitializer& Objec
 	UIFloatingStatusBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(500, 500));
 
-	/*UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/GASDocumentation/UI/UI_FloatingStatusBar_Hero.UI_FloatingStatusBar_Hero_C"));
-	if (!UIFloatingStatusBarClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find UIFloatingStatusBarClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}*/
+	FirstPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FirstPersonMesh"));
+	FirstPersonMesh->SetupAttachment(RootComponent);
+	//FirstPersonMesh->SetOnlyOwnerSee(true);
+	FirstPersonMesh->bCastDynamicShadow = false;
+	FirstPersonMesh->CastShadow = false;
+	
+	ThirdPersonMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ThirdPersonMesh"));
+	ThirdPersonMesh->SetupAttachment(GetRootComponent());
+	ThirdPersonMesh->SetOnlyOwnerSee(false);
+	ThirdPersonMesh->SetOwnerNoSee(true);
+	ThirdPersonMesh->bCastDynamicShadow = true;
+	ThirdPersonMesh->CastShadow = true;
 
 	AIControllerClass = ALutrAIController::StaticClass();
 
 	DeadTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 }
 
-// Called to bind functionality to input
-void ALutrPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ALutrPlayerCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// Bind player input to the AbilitySystemComponent. Also called in OnRep_PlayerState because of a potential race condition.
-	//BindASCInput();
+	DOREPLIFETIME(ALutrPlayerCharacter, EquippedWeapon);
+	UE_LOG(LogTemp, Warning, TEXT("Client [%s] received weapon: %s"),
+	*GetName(),
+	*GetNameSafe(EquippedWeapon));
+
 }
 
 // Server only
@@ -106,6 +114,26 @@ void ALutrPlayerCharacter::PossessedBy(AController * NewController)
 		}
 
 		InitializeFloatingStatusBar();
+
+		if (IsValid(PS->InventoryComponent))
+		{
+			UWeaponDataAsset* StarterWeaponData = Cast<UWeaponDataAsset>(StaticLoadObject(
+				UWeaponDataAsset::StaticClass(),
+				nullptr,
+				TEXT("/Game/ProjectLutr/Data/DA_AssaultRifle.DA_AssaultRifle")));
+
+			if (StarterWeaponData)
+			{
+				UWeaponInstance* StarterWeapon = NewObject<UWeaponInstance>(this);
+				StarterWeapon->WeaponData = StarterWeaponData;
+
+				PS->InventoryComponent->AddWeapon(StarterWeapon);
+
+				UE_LOG(LogTemp, Warning, TEXT("Server: Starter weapon added to %s inventory: %s"),
+					*GetNameSafe(PS),
+					*StarterWeaponData->GetName());
+			}
+		}
 	}
 }
 
@@ -229,37 +257,41 @@ void ALutrPlayerCharacter::OnRep_PlayerState()
 		SetHealth(GetMaxHealth());
 		SetMana(GetMaxMana());
 		SetStamina(GetMaxStamina());
-		
-		UE_LOG(LogTemp, Error, TEXT("OnRepPlayerState"));
 
-			if (UInventoryComponent* Inventory = PS->InventoryComponent)
-			{
-				UE_LOG(LogTemp, Error, TEXT("Inventory Component"));
-
-				UWeaponInstance* FirstWeapon = Inventory->GetWeaponAt(0);
-				if (FirstWeapon)
-				{
-					UE_LOG(LogTemp, Error, TEXT("Client Equipped: %s, Damage: %.1f"),
-						*FirstWeapon->WeaponData->GetName(),
-						FirstWeapon->GetDamage());
-				}
-				else
-				{
-					UE_LOG(LogTemp, Error, TEXT("NO FIRST WEAPON"));
-				}
-			}
-		
+		if (!PS || !PS->InventoryComponent)
+		{
+			UE_LOG(LogTemp, Error, TEXT("InventoryComponent not found on PlayerState"));
+			return;
+		}
+	
+		UWeaponDataAsset* StarterWeaponData = Cast<UWeaponDataAsset>(StaticLoadObject(
+			UWeaponDataAsset::StaticClass(),
+			nullptr,
+			TEXT("/Game/ProjectLutr/Data/DA_AssaultRifle.DA_AssaultRifle")));
+	
+		if (StarterWeaponData)
+		{
+			UWeaponInstance* StarterWeapon = NewObject<UWeaponInstance>(this);
+			StarterWeapon->WeaponData = StarterWeaponData;
+	
+			PS->InventoryComponent->AddWeapon(StarterWeapon);
+	
+			UE_LOG(LogTemp, Warning, TEXT("Starter weapon added to %s inventory: %s"),
+				*GetNameSafe(PS),
+				*StarterWeaponData->GetName());
+		}
 	}
 }
 
-// void ALutrPlayerCharacter::BindASCInput()
-// {
-// 	if (!ASCInputBound && AbilitySystemComponent.IsValid() && IsValid(InputComponent))
-// 	{
-// 		FTopLevelAssetPath AbilityEnumAssetPath = FTopLevelAssetPath(FName("/Script/ProjectLutr"), FName("EGDAbilityInputID"));
-// 		AbilitySystemComponent->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
-// 			FString("CancelTarget"), AbilityEnumAssetPath, static_cast<int32>(EGDAbilityInputID::Confirm), static_cast<int32>(EGDAbilityInputID::Cancel)));
-//
-// 		ASCInputBound = true;
-// 	}
-// }
+void ALutrPlayerCharacter::OnRep_EquippedWeapon()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->AttachToComponent(
+			ThirdPersonMesh,
+			FAttachmentTransformRules::SnapToTargetIncludingScale,
+			FName("GunSocket"));
+
+		UE_LOG(LogTemp, Warning, TEXT("Client: Re-attached EquippedWeapon on OnRep"));
+	}
+}

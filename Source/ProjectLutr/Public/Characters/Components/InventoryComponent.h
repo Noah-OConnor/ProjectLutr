@@ -7,13 +7,17 @@
 class UWeaponPartData;
 class UWeaponInstance;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTLUTR_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	UInventoryComponent();
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	virtual bool IsSupportedForNetworking() const override { return true; }
 
 	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
 	void AddWeapon(UWeaponInstance* Weapon);
@@ -27,9 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ProjectLutr|Inventory")
 	UWeaponInstance* GetWeaponAt(int32 Index) const;
 
-protected:
-	UPROPERTY(SaveGame, BlueprintReadOnly, Category = "ProjectLutr|Inventory")
+	UPROPERTY(EditAnywhere, Instanced, BlueprintReadOnly, Category = "ProjectLutr|Inventory", Replicated)
 	TArray<TObjectPtr<UWeaponInstance>> Weapons;
+
 
 public:
 	UFUNCTION(BlueprintCallable)

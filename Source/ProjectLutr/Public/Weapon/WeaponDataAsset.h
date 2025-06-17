@@ -13,8 +13,11 @@ class PROJECTLUTR_API UWeaponDataAsset : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ProjectLutr|Visual")
-	UStaticMesh* WeaponMesh;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UStaticMesh* StaticMesh;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	USkeletalMesh* SkeletalMesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ProjectLutr|Stats")
 	float BaseDamage = 20.f;

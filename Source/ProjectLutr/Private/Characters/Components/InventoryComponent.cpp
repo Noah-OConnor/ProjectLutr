@@ -1,10 +1,19 @@
 #include "Characters/Components/InventoryComponent.h"
+
+#include "Net/UnrealNetwork.h"
 #include "Weapon/WeaponPartData.h"
 
 UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	SetIsReplicatedByDefault(true);
+	SetIsReplicatedByDefault(false);
+}
+
+void UInventoryComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UInventoryComponent, Weapons);
 }
 
 void UInventoryComponent::AddWeapon(UWeaponInstance* Weapon)
@@ -27,7 +36,15 @@ const TArray<UWeaponInstance*>& UInventoryComponent::GetWeapons() const
 
 UWeaponInstance* UInventoryComponent::GetWeaponAt(int32 Index) const
 {
-	return Weapons.IsValidIndex(Index) ? Weapons[Index] : nullptr;
+	UE_LOG(LogTemp, Warning, TEXT("Inventory contains %d weapons"), Weapons.Num());
+
+	if (Weapons.IsValidIndex(Index))
+	{
+		return Weapons[Index];
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Weapon index %d out of range"), Index);
+	return nullptr;
 }
 
 bool UInventoryComponent::AddWeaponPart(UWeaponPartData* NewPart)

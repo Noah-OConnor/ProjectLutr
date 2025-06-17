@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Characters/LutrCharacterBase.h"
+#include "Net/UnrealNetwork.h"
 #include "LutrPlayerCharacter.generated.h"
 
+class AWeaponActor;
 //class UInventoryComponent;
 class UCraftingComponent;
 /**
@@ -19,13 +21,24 @@ class PROJECTLUTR_API ALutrPlayerCharacter : public ALutrCharacterBase
 public:
 	ALutrPlayerCharacter(const class FObjectInitializer& ObjectInitializer);
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 
 	// Only called on the Server. Calls before Server's AcknowledgePossession.
 	virtual void PossessedBy(AController* NewController) override;
 
 	class ULutrFloatingStatusBarWidget* GetFloatingStatusBar();
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ProjectLutr|Mesh")
+	USkeletalMeshComponent* FirstPersonMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ProjectLutr|Mesh")
+	USkeletalMeshComponent* ThirdPersonMesh;
+
+	UPROPERTY(ReplicatedUsing = OnRep_EquippedWeapon)
+	AWeaponActor* EquippedWeapon;
+
+	UFUNCTION()
+	void OnRep_EquippedWeapon();
 
 	//USkeletalMeshComponent* GetGunComponent() const;
 
@@ -48,8 +61,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "ProjectLutr|UI")
 	class UWidgetComponent* UIFloatingStatusBarComponent;
-
-	bool ASCInputBound = false;
 
 	FGameplayTag DeadTag;
 

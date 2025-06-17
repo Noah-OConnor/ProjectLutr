@@ -17,6 +17,8 @@ void ULutrGA_Jump::ActivateAbility(
 	const FGameplayAbilityActivationInfo ActivationInfo,
 	const FGameplayEventData* TriggerEventData)
 {
+	UE_LOG(LogTemp, Display, TEXT("ULutrGA_Jump::ActivateAbility"));
+	
 	ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor.Get());
 	if (Character && Character->CanJump())
 	{

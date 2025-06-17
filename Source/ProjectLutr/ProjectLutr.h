@@ -45,5 +45,7 @@ enum class EAbilityInputID : uint8
 	// 8 Sprint
 	Sprint			UMETA(DisplayName = "Sprint"),
 	// 9 Jump
-	Jump			UMETA(DisplayName = "Jump")
+	Jump			UMETA(DisplayName = "Jump"),
+	
+	EquipWeapon		UMETA(DisplayName = "EquipWeapon")
 };
