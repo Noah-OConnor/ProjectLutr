@@ -61,6 +61,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* EquipWeaponAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
+	UInputAction* FireWeaponAction;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "ProjectLutr|Input")
 	UInputAction* OpenInventoryAction;
@@ -83,6 +86,10 @@ protected:
 	void StopADS();
 	UFUNCTION()
 	void HandleEquipWeaponPressed();
+	UFUNCTION()
+	void HandleFireWeaponPressed();
+	UFUNCTION()
+	void HandleFireWeaponReleased();
 	UFUNCTION()
 	void HandleOpenInventory(const FInputActionValue& ActionValue);
 	

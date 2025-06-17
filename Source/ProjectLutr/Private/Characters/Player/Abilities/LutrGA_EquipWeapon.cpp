@@ -3,6 +3,7 @@
 
 #include "Characters/Player/Abilities/LutrGA_EquipWeapon.h"
 
+#include "AbilitySystemComponent.h"
 #include "Characters/Components/InventoryComponent.h"
 #include "Characters/Player/LutrPlayerCharacter.h"
 #include "Player/LutrPlayerState.h"
@@ -80,6 +81,16 @@ void ULutrGA_EquipWeapon::ActivateAbility(
 			FName("GunSocket"));
 
 		UE_LOG(LogTemp, Warning, TEXT("WeaponActor spawned and attached to GripPoint socket"));
+	}
+
+	if (Weapon->WeaponData && Weapon->WeaponData->FireAbilityClass)
+	{
+		UAbilitySystemComponent* ASC = Character->GetAbilitySystemComponent();
+		if (ASC)
+		{
+			FGameplayAbilitySpec Spec(Weapon->WeaponData->FireAbilityClass, 1, static_cast<int32>(EAbilityInputID::FireWeapon), Character);
+			ASC->GiveAbility(Spec);
+		}
 	}
 
 	EndAbility(Handle, ActorInfo, ActivationInfo, false, false);

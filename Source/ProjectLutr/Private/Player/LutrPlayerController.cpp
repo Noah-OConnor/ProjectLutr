@@ -39,6 +39,9 @@ void ALutrPlayerController::SetupInputComponent()
 		Input->BindAction(JumpAction, ETriggerEvent::Completed, this, &ALutrPlayerController::HandleJumpReleased);
 
 		Input->BindAction(EquipWeaponAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleEquipWeaponPressed);
+		
+		Input->BindAction(FireWeaponAction, ETriggerEvent::Started, this, &ALutrPlayerController::HandleFireWeaponPressed);
+		Input->BindAction(FireWeaponAction, ETriggerEvent::Completed, this, &ALutrPlayerController::HandleFireWeaponReleased);
 
 		Input->BindAction(ADSAction, ETriggerEvent::Started, this, &ALutrPlayerController::StartADS);
 		Input->BindAction(ADSAction, ETriggerEvent::Completed, this, &ALutrPlayerController::StopADS);
@@ -272,6 +275,28 @@ void ALutrPlayerController::HandleEquipWeaponPressed()
 		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
 		{
 			ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::EquipWeapon));
+		}
+	}
+}
+
+void ALutrPlayerController::HandleFireWeaponPressed()
+{
+	if (ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>())
+	{
+		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
+		{
+			ASC->AbilityLocalInputPressed(static_cast<int32>(EAbilityInputID::FireWeapon));
+		}
+	}
+}
+
+void ALutrPlayerController::HandleFireWeaponReleased()
+{
+	if (ALutrPlayerState* PS = GetPlayerState<ALutrPlayerState>())
+	{
+		if (UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent())
+		{
+			ASC->AbilityLocalInputReleased(static_cast<int32>(EAbilityInputID::FireWeapon));
 		}
 	}
 }

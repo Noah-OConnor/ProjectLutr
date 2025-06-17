@@ -33,6 +33,7 @@ void ULutrGA_Jump::InputReleased(
 	const FGameplayAbilityActorInfo* ActorInfo,
 	const FGameplayAbilityActivationInfo ActivationInfo)
 {
+	UE_LOG(LogTemp, Display, TEXT("ULutrGA_Jump::InputReleased"));
 	if (ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor.Get()))
 	{
 		Character->StopJumping();
