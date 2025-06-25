@@ -1,15 +1,15 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright 2020 Dan Kestranek.
 
 using UnrealBuildTool;
 using System.Collections.Generic;
 
 public class ProjectLutrEditorTarget : TargetRules
 {
-	public ProjectLutrEditorTarget( TargetInfo Target) : base(Target)
+	public ProjectLutrEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V5;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
+		DefaultBuildSettings = BuildSettingsVersion.Latest;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 		ExtraModuleNames.Add("ProjectLutr");
 	}
 }

@@ -1,6 +1,7 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright 2020 Dan Kestranek.
 
-#include "ProjectLutr.h"
+#include "ProjectLutr/ProjectLutr.h"
 #include "Modules/ModuleManager.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, ProjectLutr, "ProjectLutr" );
+ 
